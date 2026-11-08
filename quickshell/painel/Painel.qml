@@ -190,46 +190,64 @@ Scope {
                 anchors.bottomMargin: Tema.px(22)
                 spacing: Tema.px(18)
 
-                // workspaces em algarismos romanos
-                RowLayout {
+                // workspaces em algarismos romanos: I–V sempre; VI–X quando ocupados ou em foco
+                Item {
+                    id: linhaWs
                     Layout.fillWidth: true
-                    Repeater {
-                        model: ["I", "II", "III", "IV", "V"]
-                        delegate: Rectangle {
-                            id: ws
-                            required property string modelData
-                            required property int index
-                            readonly property int num: index + 1
-                            readonly property bool ativo: Hyprland.focusedWorkspace?.id === num
-                            readonly property bool ocupado: Hyprland.workspaces.values.some(w => w.id === num && w.toplevels.values.length > 0)
+                    implicitHeight: Tema.px(44)
 
-                            Layout.alignment: Qt.AlignHCenter
-                            Layout.fillWidth: true
-                            Layout.maximumWidth: Tema.px(44)
-                            implicitWidth: Tema.px(44); implicitHeight: Tema.px(44)
-                            radius: width / 2
-                            color: ativo ? Tema.cobreEscuro : (wsArea.containsMouse ? Tema.pergaminho : "transparent")
-                            border.color: ativo ? Tema.cobreEscuro : (ocupado ? Tema.borda : Tema.ouro)
-                            border.width: 1.4 * Tema.k
-                            Accessible.role: Accessible.Button
-                            Accessible.name: "Workspace " + num
+                    readonly property var romanos: ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"]
+                    readonly property var nums: {
+                        const s = new Set([1, 2, 3, 4, 5])
+                        for (const w of Hyprland.workspaces.values)
+                            if (w.id >= 1 && w.id <= 10 && w.toplevels.values.length > 0) s.add(w.id)
+                        const f = Hyprland.focusedWorkspace?.id ?? 0
+                        if (f >= 1 && f <= 10) s.add(f)
+                        return Array.from(s).sort((a, b) => a - b)
+                    }
+                    // encolhe os círculos quando não cabem (8 ou mais)
+                    readonly property real tam: Math.min(Tema.px(44), (width - (nums.length - 1) * Tema.px(5)) / nums.length)
 
-                            Text {
-                                anchors.centerIn: parent
-                                text: ws.modelData
-                                // Federant desenha o V como U; Alegreya lê sem ambiguidade
-                                font.family: Tema.ui
-                                font.weight: Font.Medium
-                                font.letterSpacing: Tema.px(0.5)
-                                font.pixelSize: Tema.px(15)
-                                color: ws.ativo ? Tema.creme : Tema.tinta
-                            }
-                            MouseArea {
-                                id: wsArea
-                                anchors.fill: parent
-                                hoverEnabled: true
-                                cursorShape: Qt.PointingHandCursor
-                                onClicked: Hyprland.dispatch(`hl.dsp.focus({ workspace = ${ws.num} })`)
+                    Row {
+                        anchors.verticalCenter: parent.verticalCenter
+                        width: parent.width
+                        spacing: linhaWs.nums.length > 1
+                                 ? (linhaWs.width - linhaWs.nums.length * linhaWs.tam) / (linhaWs.nums.length - 1) : 0
+
+                        Repeater {
+                            model: linhaWs.nums
+                            delegate: Rectangle {
+                                id: ws
+                                required property int modelData
+                                readonly property int num: modelData
+                                readonly property bool ativo: Hyprland.focusedWorkspace?.id === num
+                                readonly property bool ocupado: Hyprland.workspaces.values.some(w => w.id === num && w.toplevels.values.length > 0)
+
+                                width: linhaWs.tam; height: width
+                                radius: width / 2
+                                color: ativo ? Tema.cobreEscuro : (wsArea.containsMouse ? Tema.pergaminho : "transparent")
+                                border.color: ativo ? Tema.cobreEscuro : (ocupado ? Tema.borda : Tema.ouro)
+                                border.width: 1.4 * Tema.k
+                                Accessible.role: Accessible.Button
+                                Accessible.name: "Workspace " + num
+
+                                Text {
+                                    anchors.centerIn: parent
+                                    text: linhaWs.romanos[ws.num - 1]
+                                    // Federant desenha o V como U; Alegreya lê sem ambiguidade
+                                    font.family: Tema.ui
+                                    font.weight: Font.Medium
+                                    font.letterSpacing: Tema.px(0.5)
+                                    font.pixelSize: Tema.px(15) * linhaWs.tam / Tema.px(44)
+                                    color: ws.ativo ? Tema.creme : Tema.tinta
+                                }
+                                MouseArea {
+                                    id: wsArea
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    cursorShape: Qt.PointingHandCursor
+                                    onClicked: Hyprland.dispatch(`hl.dsp.focus({ workspace = ${ws.num} })`)
+                                }
                             }
                         }
                     }
