@@ -41,7 +41,7 @@ Rectangle {
             Text {
                 anchors.centerIn: parent
                 visible: capa.status !== Image.Ready
-                text: "󰎈"
+                text: "\uf001"   // nota musical
                 font.family: Tema.mono; font.pixelSize: Tema.px(20); color: Tema.salviaEscura
             }
         }
