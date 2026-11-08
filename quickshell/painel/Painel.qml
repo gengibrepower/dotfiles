@@ -23,6 +23,7 @@ Scope {
 
     function abrir() {
         sessaoAberta = false; confirmando = ""
+        if (atualizacoes < 0 && !contarAtualizacoes.running) contarAtualizacoes.running = true
         lerBrilho.running = true
         lerRede.running = true
         Estado.painelAberto = true
@@ -486,6 +487,8 @@ Scope {
 
                 Rectangle {
                     Layout.fillWidth: true
+                    // decorativa: some com o menu de sessão aberto, senão passa da moldura
+                    visible: !raiz.sessaoAberta
                     implicitHeight: Tema.px(92)
                     radius: Tema.px(8)
                     color: "transparent"
