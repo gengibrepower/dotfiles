@@ -126,8 +126,9 @@ Scope {
     PanelWindow {
         anchors.top: true
         exclusiveZone: 0
-        implicitWidth: Tema.px(52)
-        implicitHeight: Tema.px(22)
+        // cabe no gap superior (14 px)
+        implicitWidth: 34
+        implicitHeight: 14
         color: "transparent"
         WlrLayershell.layer: WlrLayer.Top
         WlrLayershell.namespace: "mucha-puxador"

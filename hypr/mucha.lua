@@ -21,8 +21,9 @@ M.rgba = rgba
 
 hl.config({
     general = {
-        gaps_in     = 8,
-        gaps_out    = 20,
+        gaps_in     = 3,
+        -- topo um pouco maior: é onde fica o puxador do painel
+        gaps_out    = { top = 14, right = 6, bottom = 6, left = 6 },
         border_size = 2,
         col = {
             active_border   = rgba(M.cor.cobre),
@@ -31,7 +32,7 @@ hl.config({
     },
 
     decoration = {
-        rounding       = 14,
+        rounding       = 0,
         rounding_power = 2,
         active_opacity   = 1.0,
         inactive_opacity = 1.0,
@@ -50,7 +51,7 @@ hl.config({
         -- forte o bastante para as gravuras virarem textura, não ruído
         blur = {
             enabled           = true,
-            size              = 11,
+            size              = 14,
             passes            = 3,
             noise             = 0.012,
             contrast          = 0.9,
