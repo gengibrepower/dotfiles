@@ -1,0 +1,21 @@
+# imv — rice "Mucha"
+[options]
+background = F7F1E3
+overlay_font = Alegreya Sans:13
+overlay_text_color = 3A3328
+overlay_background_color = EFE6D2
+overlay_background_alpha = e6
+title_text = imv — $imv_current_file
+
+[binds]
+q = quit
+<Left> = prev
+<Right> = next
+h = prev
+l = next
+gg = goto 1
+<Shift+G> = goto -1
+j = zoom -5
+k = zoom 5
+f = fullscreen
+r = rotate by 90
