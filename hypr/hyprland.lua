@@ -272,42 +272,55 @@ hl.device({
 ---- KEYBINDINGS ----
 ---------------------
 
-local mainMod = "SUPER" -- Sets "Windows" key as main modifier
+local mainMod = "SUPER"
 
--- Example binds, see https://wiki.hypr.land/configuring/core/binds/ for more
-hl.bind(mainMod .. " + Q", hl.dsp.exec_cmd(terminal))
-local closeWindowBind = hl.bind(mainMod .. " + C", hl.dsp.window.close())
--- closeWindowBind:set_enabled(false)
-hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))
-hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
-hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
-hl.bind(mainMod .. " + R", hl.dsp.exec_cmd(menu))
-hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
-hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))    -- dwindle only
+-- Apps
+hl.bind(mainMod .. " + Q",            hl.dsp.exec_cmd(terminal))
+hl.bind(mainMod .. " + Return",       hl.dsp.exec_cmd(terminal))
+hl.bind(mainMod .. " + E",            hl.dsp.exec_cmd(fileManager))
+hl.bind(mainMod .. " + R",            hl.dsp.exec_cmd(menu))
+hl.bind(mainMod .. " + space",        hl.dsp.exec_cmd(menu))   -- vira o launcher do Quickshell
 
--- Move focus with mainMod + arrow keys
-hl.bind(mainMod .. " + left",  hl.dsp.focus({ direction = "left" }))
-hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }))
-hl.bind(mainMod .. " + up",    hl.dsp.focus({ direction = "up" }))
-hl.bind(mainMod .. " + down",  hl.dsp.focus({ direction = "down" }))
+-- Sessão
+hl.bind(mainMod .. " + CTRL + L",     hl.dsp.exec_cmd("pidof hyprlock || hyprlock"))
+hl.bind(mainMod .. " + SHIFT + M",    hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))
 
--- Switch workspaces with mainMod + [0-9]
--- Move active window to a workspace with mainMod + SHIFT + [0-9]
+-- Screenshots (salva em ~/Pictures/Screenshots e copia)
+hl.bind("Print",                      hl.dsp.exec_cmd("~/.config/hypr/scripts/print.sh tela"))
+hl.bind("SHIFT + Print",              hl.dsp.exec_cmd("~/.config/hypr/scripts/print.sh area"))
+hl.bind(mainMod .. " + SHIFT + S",    hl.dsp.exec_cmd("~/.config/hypr/scripts/print.sh area"))
+
+-- Janelas
+hl.bind(mainMod .. " + C",            hl.dsp.window.close())
+hl.bind(mainMod .. " + F",            hl.dsp.window.fullscreen())
+hl.bind(mainMod .. " + V",            hl.dsp.window.float({ action = "toggle" }))
+hl.bind(mainMod .. " + P",            hl.dsp.window.pseudo())
+hl.bind(mainMod .. " + T",            hl.dsp.layout("togglesplit"))    -- dwindle
+
+-- Foco e movimento: hjkl e setas
+local dirs = { h = "left", j = "down", k = "up", l = "right",
+               left = "left", down = "down", up = "up", right = "right" }
+for key, dir in pairs(dirs) do
+    hl.bind(mainMod .. " + " .. key,            hl.dsp.focus({ direction = dir }))
+    hl.bind(mainMod .. " + SHIFT + " .. key,    hl.dsp.window.move({ direction = dir }))
+end
+
+-- Workspaces: Super+[0-9] vai, Super+Shift+[0-9] leva a janela
 for i = 1, 10 do
-    local key = i % 10 -- 10 maps to key 0
-    hl.bind(mainMod .. " + " .. key,             hl.dsp.focus({ workspace = i}))
+    local key = i % 10
+    hl.bind(mainMod .. " + " .. key,             hl.dsp.focus({ workspace = i }))
     hl.bind(mainMod .. " + SHIFT + " .. key,     hl.dsp.window.move({ workspace = i }))
 end
 
--- Example special workspace (scratchpad)
-hl.bind(mainMod .. " + S",         hl.dsp.workspace.toggle_special("magic"))
-hl.bind(mainMod .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" }))
+-- Scratchpad
+hl.bind(mainMod .. " + S",            hl.dsp.workspace.toggle_special("magic"))
+hl.bind(mainMod .. " + ALT + S",      hl.dsp.window.move({ workspace = "special:magic" }))
 
--- Scroll through existing workspaces with mainMod + scroll
+-- Workspaces com a roda do mouse
 hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
 hl.bind(mainMod .. " + mouse_up",   hl.dsp.focus({ workspace = "e-1" }))
 
--- Move/resize windows with mainMod + LMB/RMB and dragging
+-- Mover/redimensionar com Super + botão esquerdo/direito
 hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })
 hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
