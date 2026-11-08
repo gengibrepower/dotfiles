@@ -78,10 +78,18 @@ Item {
                     anchors.margins: 1.2 * Tema.k
                     radius: width / 2
                     color: "transparent"
-                    visible: cartao.notificacao.image !== ""
+                    // "image://icon/nome" de um ícone que não existe no tema vira o
+                    // quadriculado magenta do Qt: resolve antes e cai no glifo se faltar
+                    readonly property string fonte: {
+                        const img = cartao.notificacao.image
+                        if (img.startsWith("image://icon/"))
+                            return Quickshell.iconPath(img.slice("image://icon/".length), true)
+                        return img
+                    }
+                    visible: fonte !== ""
                     Image {
                         anchors.fill: parent
-                        source: cartao.notificacao.image
+                        source: imagem.fonte
                         fillMode: Image.PreserveAspectCrop
                         sourceSize: Qt.size(64, 64)
                     }

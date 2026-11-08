@@ -17,6 +17,7 @@ ShellRoot {
     Painel {}
     Osd {}
     Energia {}
+    Bateria {}
     Atalhos {}
     Captura {}
     Alternar {}
