@@ -286,7 +286,9 @@ hl.bind(mainMod .. " + Return",       hl.dsp.exec_cmd(terminal))   -- Ghostty pu
 hl.bind(mainMod .. " + ALT + Return", hl.dsp.exec_cmd("~/.config/hypr/scripts/tmux-terminal.sh"))   -- Ghostty no tmux
 hl.bind(mainMod .. " + Q",            hl.dsp.exec_cmd(terminal))
 -- Ferramentas de terminal em janela flutuante (classe rice.mucha.tui)
-local function tui(cmd) return 'ghostty --class=rice.mucha.tui -e ' .. cmd end
+-- fonte 12 aqui: o terminal usa 14 (código), mas btop pede no mínimo 80x24;
+-- opaco porque flutua sobre outras janelas (texto de trás vazava)
+local function tui(cmd) return 'ghostty --class=rice.mucha.tui --font-size=12 --background-opacity=1 -e ' .. cmd end
 hl.bind(mainMod .. " + E",              hl.dsp.exec_cmd(tui("yazi")))
 hl.bind(mainMod .. " + G",              hl.dsp.exec_cmd("cd ~/Projects && " .. tui("lazygit")))
 hl.bind(mainMod .. " + SHIFT + D",      hl.dsp.exec_cmd(tui("lazydocker")))
@@ -420,6 +422,6 @@ hl.window_rule({
     name  = "ferramentas-tui",
     match = { class = "^rice\\.mucha\\.tui$" },
     float  = true,
-    size   = "monitor_w*0.72 monitor_h*0.78",
+    size   = "monitor_w*0.9 monitor_h*0.9",
     center = true,
 })
