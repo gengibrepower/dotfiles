@@ -321,6 +321,10 @@ hl.bind(mainMod .. " + CTRL + V",     hl.dsp.exec_cmd("qs ipc call launcher clip
 hl.bind(mainMod .. " + X",            hl.dsp.send_shortcut({ mods = "CTRL",  key = "X" }), { desc = "Clipboard|Recortar" })
 hl.bind(mainMod .. " + P",            hl.dsp.window.pseudo(), { desc = "Janelas|Pseudo-encaixe" })
 hl.bind(mainMod .. " + T",            hl.dsp.layout("togglesplit"), { desc = "Janelas|Alternar divisão" })    -- dwindle
+-- Alt+Tab com prévia (quickshell/alternar); soltar o Alt escolhe
+hl.bind("ALT + Tab",         hl.dsp.exec_cmd("qs ipc call alternar proxima"),  { desc = "Janelas|Alternar janelas (solte o Alt)" })
+hl.bind("ALT + SHIFT + Tab", hl.dsp.exec_cmd("qs ipc call alternar anterior"), { desc = "Janelas|Alternar janelas (solte o Alt)" })
+hl.bind("ALT + Alt_L",       hl.dsp.exec_cmd("qs ipc call alternar confirmar"), { release = true, desc = "Oculto|soltar o Alt no Alt+Tab" })
 
 -- Foco e movimento: hjkl e setas
 local dirs = { h = "left", j = "down", k = "up", l = "right",

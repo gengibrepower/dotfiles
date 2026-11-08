@@ -106,6 +106,7 @@ Scope {
         const lista = []
         for (const g of ordem.concat(Object.keys(grupos).filter(x => ordem.indexOf(x) < 0))) {
             if (g === "tmux") { lista.push({ nome: "tmux", itens: tmux }); continue }
+            if (g === "Oculto") continue
             if (!grupos[g]) continue
             lista.push({ nome: g, itens: ordemAcoes[g].map(a => ({ acao: a, teclas: juntar(grupos[g][a]) })) })
         }
