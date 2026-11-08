@@ -18,8 +18,9 @@ background-blur = false
 
 background = #F7F1E3
 foreground = #3A3328
-cursor-color = #3A3328
-cursor-text = #F7F1E3
+# o cursor segue a célula: tinta no shell creme, claro no nvim escuro
+cursor-color = cell-foreground
+cursor-text = cell-background
 selection-background = #DCE3D2
 selection-foreground = #3A3328
 
