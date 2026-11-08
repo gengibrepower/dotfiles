@@ -280,7 +280,13 @@ local mainMod = "SUPER"
 hl.bind(mainMod .. " + Return",       hl.dsp.exec_cmd("~/.config/hypr/scripts/tmux-terminal.sh"))
 hl.bind(mainMod .. " + ALT + Return", hl.dsp.exec_cmd(terminal))   -- Ghostty sem tmux
 hl.bind(mainMod .. " + Q",            hl.dsp.exec_cmd(terminal))
-hl.bind(mainMod .. " + E",            hl.dsp.exec_cmd(fileManager))
+-- Ferramentas de terminal em janela flutuante (classe rice.mucha.tui)
+local function tui(cmd) return 'ghostty --class=rice.mucha.tui -e ' .. cmd end
+hl.bind(mainMod .. " + E",              hl.dsp.exec_cmd(tui("yazi")))
+hl.bind(mainMod .. " + G",              hl.dsp.exec_cmd("cd ~/Projects && " .. tui("lazygit")))
+hl.bind(mainMod .. " + SHIFT + D",      hl.dsp.exec_cmd(tui("lazydocker")))
+hl.bind(mainMod .. " + SHIFT + Escape", hl.dsp.exec_cmd(tui("btop")))
+hl.bind(mainMod .. " + B",              hl.dsp.exec_cmd("firefox"))
 hl.bind(mainMod .. " + D",            hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + space",        hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + Escape",       hl.dsp.exec_cmd("qs ipc call painel toggle"))
@@ -403,3 +409,11 @@ hl.window_rule({
 -----------------------
 -- Carregado por último para sobrepor o "look and feel" padrão acima.
 require("mucha")
+
+hl.window_rule({
+    name  = "ferramentas-tui",
+    match = { class = "^rice\\.mucha\\.tui$" },
+    float  = true,
+    size   = "monitor_w*0.72 monitor_h*0.78",
+    center = true,
+})

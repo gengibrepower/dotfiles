@@ -1,0 +1,20 @@
+# lazygit — rice "Mucha"
+gui:
+  border: rounded
+  nerdFontsVersion: "3"
+  theme:
+    activeBorderColor: ["#B0683A", bold]
+    inactiveBorderColor: ["#D5C7A8"]
+    searchingActiveBorderColor: ["#B8955A", bold]
+    optionsTextColor: ["#4F5E45"]
+    selectedLineBgColor: ["#DCE3D2"]
+    inactiveViewSelectedLineBgColor: ["#EFE6D2"]
+    cherryPickedCommitFgColor: ["#F7F1E3"]
+    cherryPickedCommitBgColor: ["#4F5E45"]
+    markedBaseCommitFgColor: ["#F7F1E3"]
+    markedBaseCommitBgColor: ["#B8955A"]
+    unstagedChangesColor: ["#8A4B26"]
+    defaultFgColor: ["#3A3328"]
+git:
+  paging:
+    colorArg: always

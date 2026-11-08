@@ -1,0 +1,9 @@
+# lazydocker — rice "Mucha"
+gui:
+  border: rounded
+  theme:
+    activeBorderColor: ["#B0683A", bold]
+    inactiveBorderColor: ["#D5C7A8"]
+    selectedLineBgColor: ["#DCE3D2"]
+    optionsTextColor: ["#4F5E45"]
+  returnImmediately: false
