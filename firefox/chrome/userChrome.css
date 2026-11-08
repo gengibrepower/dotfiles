@@ -1,0 +1,119 @@
+/* Firefox — rice Art Nouveau "Mucha"
+   pergaminho EFE6D2 · creme F7F1E3 · tinta 3A3328 · tinta suave 6E6553
+   sálvia DCE3D2 / 4F5E45 · cobre B0683A / 8A4B26 · ouro B8955A · borda D5C7A8 */
+
+:root {
+  --mucha-pergaminho: #EFE6D2;
+  --mucha-creme: #F7F1E3;
+  --mucha-tinta: #3A3328;
+  --mucha-tinta-suave: #6E6553;
+  --mucha-salvia: #DCE3D2;
+  --mucha-cobre: #B0683A;
+  --mucha-cobre-escuro: #8A4B26;
+  --mucha-ouro: #B8955A;
+  --mucha-borda: #D5C7A8;
+
+  /* moldura e barras */
+  --lwt-accent-color: var(--mucha-pergaminho) !important;
+  --lwt-text-color: var(--mucha-tinta) !important;
+  --toolbar-bgcolor: var(--mucha-creme) !important;
+  --toolbar-color: var(--mucha-tinta) !important;
+  --toolbarbutton-icon-fill: var(--mucha-tinta) !important;
+  --toolbarbutton-hover-background: var(--mucha-pergaminho) !important;
+  --toolbarbutton-active-background: var(--mucha-salvia) !important;
+  --chrome-content-separator-color: var(--mucha-borda) !important;
+
+  /* abas */
+  --tab-selected-bgcolor: var(--mucha-creme) !important;
+  --tab-selected-textcolor: var(--mucha-tinta) !important;
+  --tab-hover-background-color: rgba(220, 227, 210, 0.6) !important;
+  --tab-border-radius: 8px !important;
+
+  /* barra de endereço */
+  --toolbar-field-background-color: var(--mucha-pergaminho) !important;
+  --toolbar-field-focus-background-color: var(--mucha-creme) !important;
+  --toolbar-field-color: var(--mucha-tinta) !important;
+  --toolbar-field-focus-color: var(--mucha-tinta) !important;
+  --toolbar-field-border-color: var(--mucha-borda) !important;
+  --toolbar-field-focus-border-color: var(--mucha-cobre) !important;
+  --urlbar-box-bgcolor: var(--mucha-creme) !important;
+  --urlbar-box-hover-bgcolor: var(--mucha-salvia) !important;
+  --urlbarView-highlight-background: var(--mucha-salvia) !important;
+  --urlbarView-highlight-color: var(--mucha-tinta) !important;
+
+  /* menus e painéis */
+  --arrowpanel-background: var(--mucha-creme) !important;
+  --arrowpanel-color: var(--mucha-tinta) !important;
+  --arrowpanel-border-color: var(--mucha-ouro) !important;
+  --panel-separator-color: var(--mucha-borda) !important;
+  --button-hover-bgcolor: var(--mucha-pergaminho) !important;
+  --button-primary-bgcolor: var(--mucha-cobre-escuro) !important;
+  --button-primary-hover-bgcolor: #6E3C1E !important;
+  --button-primary-color: var(--mucha-creme) !important;
+  --focus-outline-color: var(--mucha-cobre) !important;
+
+  /* barra lateral */
+  --sidebar-background-color: var(--mucha-pergaminho) !important;
+  --sidebar-text-color: var(--mucha-tinta) !important;
+}
+
+/* aba ativa: filete cobre em cima, como a borda ativa das janelas */
+.tab-background[selected] {
+  border-top: 2px solid var(--mucha-cobre) !important;
+  box-shadow: 0 1px 6px rgba(74, 52, 30, 0.15) !important;
+}
+.tabbrowser-tab {
+  font-family: "Alegreya Sans", sans-serif !important;
+  font-size: 13.5px !important;
+}
+
+/* barra de endereço com filete dourado */
+#urlbar-background {
+  border: 1px solid var(--mucha-ouro) !important;
+  border-radius: 16px !important;
+}
+#urlbar[focused] #urlbar-background {
+  border-color: var(--mucha-cobre) !important;
+}
+
+/* menus de contexto */
+menupopup {
+  --panel-background: var(--mucha-creme) !important;
+  --panel-color: var(--mucha-tinta) !important;
+  --panel-border-color: var(--mucha-ouro) !important;
+}
+menupopup menuitem[_moz-menuactive], menupopup menu[_moz-menuactive] {
+  background-color: var(--mucha-salvia) !important;
+  color: var(--mucha-tinta) !important;
+}
+
+/* vence temas leves (escuros) ativos: pinta as barras diretamente */
+:root:-moz-lwtheme, :root[lwtheme] {
+  --lwt-accent-color: var(--mucha-pergaminho) !important;
+  --lwt-text-color: var(--mucha-tinta) !important;
+  --toolbar-bgcolor: var(--mucha-creme) !important;
+  --toolbar-color: var(--mucha-tinta) !important;
+}
+#navigator-toolbox, #TabsToolbar, #titlebar {
+  background-color: var(--mucha-pergaminho) !important;
+  background-image: none !important;
+  color: var(--mucha-tinta) !important;
+}
+#nav-bar, #PersonalToolbar, #sidebar-box, #sidebar-main {
+  background-color: var(--mucha-creme) !important;
+  background-image: none !important;
+  color: var(--mucha-tinta) !important;
+}
+#navigator-toolbox { border-bottom: 1px solid var(--mucha-borda) !important; }
+.tabbrowser-tab:not([selected]) .tab-label { color: var(--mucha-tinta-suave) !important; }
+
+/* aba ativa sempre creme (temas escuros forçam a cor por cima) */
+.tab-background[selected], .tab-background:is([selected], [multiselected]) {
+  background-color: var(--mucha-creme) !important;
+  background-image: none !important;
+}
+.tabbrowser-tab[selected] .tab-label { color: var(--mucha-tinta) !important; }
+#urlbar-input::placeholder, .searchbar-textbox::placeholder {
+  color: var(--mucha-tinta-suave) !important;
+  opacity: 1 !important;
+}

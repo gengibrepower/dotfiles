@@ -1,0 +1,4 @@
+/* páginas internas (nova aba, about:) na paleta Mucha */
+@-moz-document url-prefix("about:home"), url-prefix("about:newtab"), url-prefix("about:blank") {
+  body { background-color: #EFE6D2 !important; color: #3A3328 !important; }
+}
