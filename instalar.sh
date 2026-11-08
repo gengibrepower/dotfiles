@@ -117,6 +117,11 @@ linkar gtk/gtk-4.0 "$HOME/.config/gtk-4.0"
 linkar nvim/.config/nvim "$HOME/.config/nvim"
 linkar tmux/tmux.conf "$HOME/.config/tmux/tmux.conf"
 
+# versões ativas do tema (lazygit, yazi, btop, GTK, tmux): links criados pelo tema.sh;
+# o Quickshell troca para o escuro sozinho à noite
+if [ -L "$DOTS/lazygit/config.yml" ] && [ -L "$HOME/.config/tmux/cores.conf" ]; then ok "links do tema claro/escuro"
+else fazer "$DOTS/hypr/scripts/tema.sh" claro; fi
+
 # Firefox: o perfil só existe depois de abrir o Firefox uma vez
 perfil="$(find "$HOME/.config/mozilla/firefox" "$HOME/.mozilla/firefox" -maxdepth 1 -type d -name '*.default-release' 2>/dev/null | head -1 || true)"
 if [ -n "$perfil" ]; then
@@ -148,10 +153,8 @@ fi
 
 if command -v gsettings >/dev/null; then
     gs() { [ "$(gsettings get org.gnome.desktop.interface "$1")" = "'$2'" ] || fazer gsettings set org.gnome.desktop.interface "$1" "$2"; }
-    gs gtk-theme adw-gtk3
-    gs color-scheme prefer-light
     gs font-name "Alegreya Sans 11"
-    ok "GTK: adw-gtk3 claro, Alegreya Sans"
+    ok "GTK: Alegreya Sans (claro/escuro fica com o tema.sh)"
 fi
 [ "$SIMULAR" = 1 ] || xdg-user-dirs-update 2>/dev/null || true
 mkdir -p "$HOME/Pictures/Screenshots" "$HOME/Videos/Gravações" 2>/dev/null || true

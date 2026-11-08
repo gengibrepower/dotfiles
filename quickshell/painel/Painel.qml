@@ -180,7 +180,7 @@ Scope {
         id: janela
         visible: Estado.painelAberto
         anchors { top: true; bottom: true; left: true; right: true }
-        color: Qt.rgba(58 / 255, 51 / 255, 40 / 255, 0.12)
+        color: Tema.veu
         exclusionMode: ExclusionMode.Ignore
         WlrLayershell.layer: WlrLayer.Overlay
         WlrLayershell.keyboardFocus: WlrKeyboardFocus.Exclusive
@@ -345,18 +345,25 @@ Scope {
                     }
                     Bloco {
                         Layout.fillWidth: true
-                        Layout.columnSpan: 2
                         icone: "󰚰"
-                        rotulo: "Sistema · clique para atualizar"
+                        rotulo: "Sistema"
                         valor: raiz.atualizacoes < 0 ? "verificando…"
                              : raiz.atualizacoes === 0 ? "em dia"
                              : raiz.atualizacoes === 1 ? "1 atualização" : raiz.atualizacoes + " atualizações"
                         ativo: raiz.atualizacoes > 0
                         onClicado: raiz.atualizarSistema()
                     }
+                    Bloco {
+                        Layout.fillWidth: true
+                        icone: Tema.escuro ? "\uf186" : "\uf185"     // lua / sol
+                        rotulo: "Tema"
+                        valor: ({ auto: "automático", claro: "claro", escuro: "escuro" })[Estado.modoTema]
+                        ativo: Estado.modoTema !== "auto"
+                        onClicado: Quickshell.execDetached(["qs", "ipc", "call", "tema", "alternar"])
+                    }
                 }
 
-                Rectangle { Layout.fillWidth: true; implicitHeight: 1; color: "#D5C29A" }
+                Rectangle { Layout.fillWidth: true; implicitHeight: 1; color: Tema.filete }
 
                 // sessão
                 RowLayout {
@@ -413,7 +420,7 @@ Scope {
                         implicitWidth: Tema.px(36); implicitHeight: Tema.px(36)
                         radius: width / 2
                         color: tecArea.containsMouse ? Tema.pergaminho : "transparent"
-                        border.color: "#D5C7A8"; border.width: Tema.k
+                        border.color: Tema.linha; border.width: Tema.k
                         Accessible.role: Accessible.Button
                         Accessible.name: "Atalhos de teclado"
                         Text {
@@ -438,7 +445,7 @@ Scope {
                         implicitWidth: Tema.px(36); implicitHeight: Tema.px(36)
                         radius: width / 2
                         color: engArea.containsMouse ? Tema.pergaminho : "transparent"
-                        border.color: "#D5C7A8"; border.width: Tema.k
+                        border.color: Tema.linha; border.width: Tema.k
                         Accessible.role: Accessible.Button
                         Accessible.name: "Configurações (dotfiles)"
                         Text {
@@ -514,6 +521,9 @@ Scope {
                         anchors.fill: parent
                         anchors.margins: 1.4 * Tema.k
                         source: "file://" + raiz.home + "/.config/rice/assets/cartela-painel.png"
+                        // no tema escuro a gravura sépia some no fundo em vez de acender
+                        layer.enabled: Tema.escuro
+                        layer.effect: MultiEffect { brightness: -0.42; saturation: -0.15 }
                         fillMode: Image.PreserveAspectCrop
                         smooth: true; mipmap: true
                     }

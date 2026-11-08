@@ -9,7 +9,7 @@ Rectangle {
     implicitWidth: Tema.px(44); implicitHeight: Tema.px(24)
     radius: height / 2
     color: ligado ? Tema.salvia : Tema.trilho
-    border.color: ligado ? Tema.salviaEscura : "#D5C7A8"; border.width: Tema.k
+    border.color: ligado ? Tema.salviaEscura : Tema.linha; border.width: Tema.k
     Accessible.role: Accessible.CheckBox
     Accessible.checked: ligado
     Rectangle {

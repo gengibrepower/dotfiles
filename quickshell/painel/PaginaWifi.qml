@@ -137,7 +137,7 @@ Subpagina {
                 height: Tema.px(44) + (comSenha ? Tema.px(44) : 0)
                 radius: Tema.px(10)
                 color: modelData.emUso ? Tema.salviaClara : (ma.containsMouse || comSenha ? Tema.pergaminho : "transparent")
-                border.color: modelData.emUso ? Tema.salvia : (comSenha ? "#D5C7A8" : "transparent")
+                border.color: modelData.emUso ? Tema.salvia : (comSenha ? Tema.linha : "transparent")
                 border.width: Tema.k
 
                 MouseArea { id: ma; anchors.fill: parent; hoverEnabled: true; cursorShape: Qt.PointingHandCursor; onClicked: raiz.clicar(linha.modelData) }

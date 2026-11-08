@@ -319,10 +319,14 @@ hl.bind(mainMod .. " + C",            hl.dsp.send_shortcut({ mods = "CTRL",  key
 hl.bind(mainMod .. " + V",            hl.dsp.send_shortcut({ mods = "SHIFT", key = "Insert" }), { desc = "Clipboard|Colar" })
 hl.bind(mainMod .. " + CTRL + V",     hl.dsp.exec_cmd("qs ipc call launcher clipboard"), { desc = "Clipboard|Histórico de cópias" })   -- histórico
 hl.bind(mainMod .. " + period",        hl.dsp.exec_cmd("qs ipc call launcher emoji"), { desc = "Apps|Emoji (copia)" })
+hl.bind(mainMod .. " + SHIFT + T",     hl.dsp.exec_cmd("qs ipc call tema alternar"),  { desc = "Sistema|Tema: automático → claro → escuro" })
 hl.bind(mainMod .. " + CTRL + C",     hl.dsp.exec_cmd("qs ipc call launcher calc"),  { desc = "Apps|Calculadora (copia o resultado)" })
 hl.bind(mainMod .. " + X",            hl.dsp.send_shortcut({ mods = "CTRL",  key = "X" }), { desc = "Clipboard|Recortar" })
 hl.bind(mainMod .. " + P",            hl.dsp.window.pseudo(), { desc = "Janelas|Pseudo-encaixe" })
 hl.bind(mainMod .. " + T",            hl.dsp.layout("togglesplit"), { desc = "Janelas|Alternar divisão" })    -- dwindle
+-- tampa: com monitor externo desliga a tela interna (sem externo o logind suspende)
+hl.bind("switch:on:Lid Switch",  hl.dsp.exec_cmd("~/.config/hypr/scripts/tampa.sh fechou"), { locked = true, desc = "Oculto|tampa fechou" })
+hl.bind("switch:off:Lid Switch", hl.dsp.exec_cmd("~/.config/hypr/scripts/tampa.sh abriu"),  { locked = true, desc = "Oculto|tampa abriu" })
 -- Alt+Tab com prévia (quickshell/alternar); soltar o Alt escolhe
 hl.bind("ALT + Tab",         hl.dsp.exec_cmd("qs ipc call alternar proxima"),  { desc = "Janelas|Alternar janelas (solte o Alt)" })
 hl.bind("ALT + SHIFT + Tab", hl.dsp.exec_cmd("qs ipc call alternar anterior"), { desc = "Janelas|Alternar janelas (solte o Alt)" })

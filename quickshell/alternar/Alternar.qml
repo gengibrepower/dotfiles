@@ -82,7 +82,7 @@ Scope {
     PanelWindow {
         visible: raiz.aberto
         anchors { top: true; bottom: true; left: true; right: true }
-        color: Qt.rgba(58 / 255, 51 / 255, 40 / 255, 0.25)
+        color: Tema.veu
         exclusionMode: ExclusionMode.Ignore
         WlrLayershell.layer: WlrLayer.Overlay
         // sem foco de teclado: o Alt solto chega ao Hyprland (bind de release)
@@ -118,7 +118,7 @@ Scope {
 
             Rectangle {
                 anchors.fill: parent; anchors.margins: 5; radius: 3; color: "transparent"
-                border.color: Qt.rgba(184 / 255, 149 / 255, 90 / 255, 0.45); border.width: 1
+                border.color: Tema.fileteOuro; border.width: 1
             }
 
             Flickable {
@@ -144,7 +144,7 @@ Scope {
                             height: 186
                             radius: 8
                             color: escolhido ? Tema.salviaClara : Tema.pergaminho
-                            border.color: escolhido ? Tema.cobre : "#D5C7A8"
+                            border.color: escolhido ? Tema.cobre : Tema.linha
                             border.width: escolhido ? 2.4 : 1
 
                             onEscolhidoChanged: if (escolhido) {

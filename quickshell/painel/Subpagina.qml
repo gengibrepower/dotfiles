@@ -23,7 +23,7 @@ ColumnLayout {
             implicitWidth: Tema.px(34); implicitHeight: Tema.px(34)
             radius: width / 2
             color: va.containsMouse ? Tema.pergaminho : "transparent"
-            border.color: "#D5C7A8"; border.width: Tema.k
+            border.color: Tema.linha; border.width: Tema.k
             Accessible.role: Accessible.Button
             Accessible.name: "Voltar"
             Text {
@@ -48,7 +48,7 @@ ColumnLayout {
         Item { id: slotDireita; implicitWidth: childrenRect.width; implicitHeight: childrenRect.height }
     }
 
-    Rectangle { Layout.fillWidth: true; implicitHeight: 1; color: "#D5C29A" }
+    Rectangle { Layout.fillWidth: true; implicitHeight: 1; color: Tema.filete }
 
     Flickable {
         Layout.fillWidth: true

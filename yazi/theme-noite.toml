@@ -1,0 +1,82 @@
+# (gerado de theme-dia.toml por rice/gen/noite.py — não edite à mão)
+# yazi — rice "Mucha"
+[mgr]
+cwd = { fg = "#E0A070", bold = true }
+hovered         = { fg = "#E6DAC2", bg = "#34402F", bold = true }
+preview_hovered = { underline = true }
+find_keyword  = { fg = "#E0A070", bold = true, underline = true }
+find_position = { fg = "#CC8550", italic = true }
+marker_copied   = { fg = "#AFC29C", bg = "#AFC29C" }
+marker_cut      = { fg = "#E0A070", bg = "#E0A070" }
+marker_marked   = { fg = "#B39459", bg = "#B39459" }
+marker_selected = { fg = "#CC8550", bg = "#CC8550" }
+count_copied   = { fg = "#1E1A15", bg = "#AFC29C" }
+count_cut      = { fg = "#1E1A15", bg = "#E0A070" }
+count_selected = { fg = "#1E1A15", bg = "#CC8550" }
+border_symbol = "│"
+border_style  = { fg = "#4A4034" }
+
+[mode]
+normal_main = { fg = "#1E1A15", bg = "#AFC29C", bold = true }
+normal_alt  = { fg = "#AFC29C", bg = "#34402F" }
+select_main = { fg = "#1E1A15", bg = "#CC8550", bold = true }
+select_alt  = { fg = "#E0A070", bg = "#26211A" }
+unset_main  = { fg = "#1E1A15", bg = "#E0A070", bold = true }
+unset_alt   = { fg = "#E0A070", bg = "#26211A" }
+
+[status]
+overall = { fg = "#E6DAC2" }
+perm_type  = { fg = "#AFC29C" }
+perm_read  = { fg = "#D4AE60" }
+perm_write = { fg = "#E0A070" }
+perm_exec  = { fg = "#AFC29C" }
+perm_sep   = { fg = "#ADA087" }
+progress_label  = { fg = "#E6DAC2", bold = true }
+progress_normal = { fg = "#CC8550", bg = "#3A3328" }
+progress_error  = { fg = "#E0A070", bg = "#3A3328" }
+
+[input]
+border   = { fg = "#CC8550" }
+title    = { fg = "#E6DAC2" }
+value    = { fg = "#E6DAC2" }
+selected = { bg = "#34402F" }
+
+[confirm]
+border  = { fg = "#CC8550" }
+title   = { fg = "#E0A070", bold = true }
+btn_yes = { fg = "#1E1A15", bg = "#E0A070" }
+btn_no  = { fg = "#E6DAC2", bg = "#26211A" }
+
+[tasks]
+border  = { fg = "#CC8550" }
+title   = { fg = "#E6DAC2" }
+hovered = { fg = "#E6DAC2", bg = "#34402F" }
+
+[which]
+mask            = { bg = "#26211A" }
+cand            = { fg = "#E0A070" }
+rest            = { fg = "#ADA087" }
+desc            = { fg = "#E6DAC2" }
+separator_style = { fg = "#B39459" }
+
+[help]
+on      = { fg = "#E0A070" }
+run     = { fg = "#AFC29C" }
+hovered = { bg = "#34402F", bold = true }
+footer  = { fg = "#E6DAC2", bg = "#26211A" }
+
+[notify]
+title_info  = { fg = "#AFC29C" }
+title_warn  = { fg = "#D4AE60" }
+title_error = { fg = "#E0A070" }
+
+[filetype]
+rules = [
+    { mime = "image/*", fg = "#D4AE60" },
+    { mime = "{audio,video}/*", fg = "#C08FA0" },
+    { mime = "application/{zip,gzip,x-tar,x-bzip*,x-7z-compressed,x-xz,x-rar,zstd}", fg = "#E0A070" },
+    { mime = "application/{pdf,doc,rtf}", fg = "#8FA9B5" },
+    { url = "*", is = "orphan", fg = "#E0A070", italic = true },
+    { url = "*", is = "exec", fg = "#AFC29C" },
+    { url = "*/", fg = "#AFC29C", bold = true },
+]

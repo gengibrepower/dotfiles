@@ -17,7 +17,7 @@ Rectangle {
     implicitHeight: Tema.px(64)
     radius: Tema.px(12)
     color: Tema.pergaminho
-    border.color: "#D5C7A8"; border.width: Tema.k
+    border.color: Tema.linha; border.width: Tema.k
 
     RowLayout {
         anchors.fill: parent

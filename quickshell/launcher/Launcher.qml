@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Layouts
+import QtQuick.Effects
 import QtQuick.Shapes
 import Quickshell
 import Quickshell.Io
@@ -151,7 +152,7 @@ Scope {
         id: janela
         visible: raiz.aberto
         anchors { top: true; bottom: true; left: true; right: true }
-        color: Qt.rgba(58 / 255, 51 / 255, 40 / 255, 0.16)
+        color: Tema.veu
         exclusionMode: ExclusionMode.Ignore
         WlrLayershell.layer: WlrLayer.Overlay
         WlrLayershell.keyboardFocus: WlrKeyboardFocus.Exclusive
@@ -364,6 +365,9 @@ Scope {
                         anchors.fill: parent
                         anchors.margins: 1.4 * Tema.k
                         source: "file://" + raiz.home + "/.config/rice/assets/cartela-launcher.png"
+                        // no tema escuro a gravura sépia some no fundo em vez de acender
+                        layer.enabled: Tema.escuro
+                        layer.effect: MultiEffect { brightness: -0.42; saturation: -0.15 }
                         fillMode: Image.PreserveAspectCrop
                         smooth: true
                         mipmap: true
@@ -373,7 +377,7 @@ Scope {
                         width: rotuloModo.implicitWidth + Tema.px(20)
                         height: rotuloModo.implicitHeight + Tema.px(2)
                         radius: Tema.px(6)
-                        color: Qt.rgba(239 / 255, 230 / 255, 210 / 255, 0.94)
+                        color: Qt.alpha(Tema.pergaminho, 0.94)
                         Text {
                             id: rotuloModo
                             anchors.centerIn: parent

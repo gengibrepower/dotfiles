@@ -2,3 +2,8 @@
 @-moz-document url-prefix("about:home"), url-prefix("about:newtab"), url-prefix("about:blank") {
   body { background-color: #EFE6D2 !important; color: #3A3328 !important; }
 }
+@media (prefers-color-scheme: dark) {
+  @-moz-document url-prefix("about:home"), url-prefix("about:newtab"), url-prefix("about:blank") {
+    body { background-color: #26211A !important; color: #E6DAC2 !important; }
+  }
+}

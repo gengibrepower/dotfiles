@@ -15,7 +15,7 @@ Rectangle {
     implicitHeight: Tema.px(56)
     radius: Tema.px(12)
     color: ativo ? Tema.salviaClara : (area.containsMouse ? Tema.trilho : Tema.pergaminho)
-    border.color: ativo ? Tema.salvia : "#D5C7A8"
+    border.color: ativo ? Tema.salvia : Tema.linha
     border.width: Tema.k
 
     Accessible.role: Accessible.Button

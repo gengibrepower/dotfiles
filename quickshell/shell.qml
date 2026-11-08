@@ -9,6 +9,7 @@ import "energia"
 import "atalhos"
 import "captura"
 import "alternar"
+import "tema"
 
 // Rice Art Nouveau "Mucha" — notificações, launcher e painel de status
 ShellRoot {
@@ -21,4 +22,5 @@ ShellRoot {
     Atalhos {}
     Captura {}
     Alternar {}
+    Noturno {}
 }

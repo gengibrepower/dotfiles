@@ -40,7 +40,7 @@ Subpagina {
                 height: col.implicitHeight + Tema.px(16)
                 radius: Tema.px(10)
                 color: Tema.pergaminho
-                border.color: modelData.critica ? Tema.cobre : "#D5C7A8"
+                border.color: modelData.critica ? Tema.cobre : Tema.linha
                 border.width: modelData.critica ? 1.4 * Tema.k : Tema.k
 
                 ColumnLayout {

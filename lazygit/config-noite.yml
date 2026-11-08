@@ -1,0 +1,22 @@
+# (gerado de config-dia.yml por rice/gen/noite.py — não edite à mão)
+# lazygit — rice "Mucha"
+gui:
+  border: rounded
+  nerdFontsVersion: "3"
+  theme:
+    activeBorderColor: ["#CC8550", bold]
+    inactiveBorderColor: ["#4A4034"]
+    searchingActiveBorderColor: ["#B39459", bold]
+    optionsTextColor: ["#AFC29C"]
+    selectedLineBgColor: ["#34402F"]
+    inactiveViewSelectedLineBgColor: ["#26211A"]
+    cherryPickedCommitFgColor: ["#1E1A15"]
+    cherryPickedCommitBgColor: ["#AFC29C"]
+    markedBaseCommitFgColor: ["#1E1A15"]
+    markedBaseCommitBgColor: ["#B39459"]
+    unstagedChangesColor: ["#E0A070"]
+    defaultFgColor: ["#E6DAC2"]
+git:
+  diffRenderers:
+    - colorArg: always
+      type: rawGit

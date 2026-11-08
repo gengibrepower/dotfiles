@@ -16,31 +16,11 @@ background-opacity = 0.80
 # sem blur: o wallpaper aparece nítido atrás do texto
 background-blur = false
 
-background = #F7F1E3
-foreground = #3A3328
+# cores em themes/: segue o claro/escuro do sistema (hypr/scripts/tema.sh)
+theme = light:mucha-dia,dark:mucha-noite
 # o cursor segue a célula: tinta no shell creme, claro no nvim escuro
 cursor-color = cell-foreground
 cursor-text = cell-background
-selection-background = #DCE3D2
-selection-foreground = #3A3328
-
-# preto, vermelho, verde, amarelo, azul, magenta, ciano, branco
-palette = 0=#3A3328
-palette = 1=#8A4B26
-palette = 2=#4F5E45
-palette = 3=#8F6A2C
-palette = 4=#4E6470
-palette = 5=#7A4E5E
-palette = 6=#4D6B62
-palette = 7=#E2D7BF
-palette = 8=#6E6553
-palette = 9=#B0683A
-palette = 10=#6B7D5E
-palette = 11=#B8955A
-palette = 12=#6A8290
-palette = 13=#9A6A7A
-palette = 14=#6A8A80
-palette = 15=#EFE6D2
 
 # Super+V do Hyprland manda Shift+Insert: colar do clipboard, não da seleção
 keybind = shift+insert=paste_from_clipboard

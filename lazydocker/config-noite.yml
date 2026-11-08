@@ -1,0 +1,10 @@
+# (gerado de config-dia.yml por rice/gen/noite.py — não edite à mão)
+# lazydocker — rice "Mucha"
+gui:
+  border: rounded
+  theme:
+    activeBorderColor: ["#CC8550", bold]
+    inactiveBorderColor: ["#4A4034"]
+    selectedLineBgColor: ["#34402F"]
+    optionsTextColor: ["#AFC29C"]
+  returnImmediately: false

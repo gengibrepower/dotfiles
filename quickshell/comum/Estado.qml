@@ -7,6 +7,7 @@ import Quickshell
 Singleton {
     property bool naoPerturbe: false
     property bool painelAberto: false
+    property string modoTema: "auto"      // auto | claro | escuro (tema/Noturno.qml)
 
     // histórico das notificações (mais nova primeiro), só na memória da sessão
     property var historico: []

@@ -1,0 +1,21 @@
+# Ghostty — Mucha (noite): nogueira escura, tinta creme, cobre e ouro
+background = #1E1A15
+foreground = #E6DAC2
+selection-background = #34402F
+selection-foreground = #E6DAC2
+palette = 0=#3A3328
+palette = 1=#CC8550
+palette = 2=#9DB08A
+palette = 3=#B39459
+palette = 4=#8FA9B5
+palette = 5=#C08FA0
+palette = 6=#8DB0A5
+palette = 7=#ADA087
+palette = 8=#6E6553
+palette = 9=#E0A070
+palette = 10=#AFC29C
+palette = 11=#D4AE60
+palette = 12=#A5BCC8
+palette = 13=#D0A5B5
+palette = 14=#A0C2B8
+palette = 15=#E6DAC2

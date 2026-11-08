@@ -50,7 +50,7 @@ Scope {
     PanelWindow {
         visible: raiz.aberto
         anchors { top: true; bottom: true; left: true; right: true }
-        color: Qt.rgba(58 / 255, 51 / 255, 40 / 255, 0.22)
+        color: Tema.veu
         exclusionMode: ExclusionMode.Ignore
         WlrLayershell.layer: WlrLayer.Overlay
         WlrLayershell.keyboardFocus: WlrKeyboardFocus.Exclusive
@@ -86,7 +86,7 @@ Scope {
             MouseArea { anchors.fill: parent }
             Rectangle {
                 anchors.fill: parent; anchors.margins: 5; radius: 3; color: "transparent"
-                border.color: Qt.rgba(184 / 255, 149 / 255, 90 / 255, 0.45); border.width: 1
+                border.color: Tema.fileteOuro; border.width: 1
             }
 
             component Botao: Rectangle {
@@ -100,7 +100,7 @@ Scope {
                 implicitHeight: 74
                 radius: 8
                 color: ab.containsMouse ? Tema.salviaClara : Tema.pergaminho
-                border.color: ab.containsMouse ? Tema.salvia : "#D5C7A8"
+                border.color: ab.containsMouse ? Tema.salvia : Tema.linha
                 border.width: 1
                 ColumnLayout {
                     anchors.centerIn: parent
@@ -122,7 +122,7 @@ Scope {
                 implicitWidth: lo.implicitWidth + 28
                 radius: height / 2
                 color: ligado ? Tema.salviaClara : (ao.containsMouse ? Tema.trilho : "transparent")
-                border.color: ligado ? Tema.salvia : "#D5C7A8"
+                border.color: ligado ? Tema.salvia : Tema.linha
                 border.width: 1
                 Text {
                     id: lo
@@ -153,8 +153,8 @@ Scope {
                 Text { text: "● Gravar vídeo"; font.family: Tema.ui; font.pixelSize: 13; font.capitalization: Font.SmallCaps; font.letterSpacing: 1.2; color: Tema.salviaEscura }
                 RowLayout {
                     Layout.fillWidth: true; spacing: 8
-                    Botao { glifo: "󰩭"; corGlifo: "#A0331F"; rotulo: "Área"; tecla: "g"; onAcionado: raiz.gravar("area") }
-                    Botao { glifo: "󰍹"; corGlifo: "#A0331F"; rotulo: "Tela"; tecla: "G"; onAcionado: raiz.gravar("tela") }
+                    Botao { glifo: "󰩭"; corGlifo: Tema.vermelho; rotulo: "Área"; tecla: "g"; onAcionado: raiz.gravar("area") }
+                    Botao { glifo: "󰍹"; corGlifo: Tema.vermelho; rotulo: "Tela"; tecla: "G"; onAcionado: raiz.gravar("tela") }
                 }
 
                 RowLayout {
@@ -192,7 +192,7 @@ Scope {
                 Rectangle {
                     anchors.verticalCenter: parent.verticalCenter
                     width: 10; height: 10; radius: 5
-                    color: pa.containsMouse ? Tema.creme : "#A0331F"
+                    color: pa.containsMouse ? Tema.creme : Tema.vermelho
                     SequentialAnimation on opacity {
                         running: raiz.gravando; loops: Animation.Infinite
                         NumberAnimation { to: 0.25; duration: 700 }

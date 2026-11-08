@@ -117,3 +117,21 @@ menupopup menuitem[_moz-menuactive], menupopup menu[_moz-menuactive] {
   color: var(--mucha-tinta-suave) !important;
   opacity: 1 !important;
 }
+
+/* >>> noite (gerado por rice/gen/noite.py) */
+@media (prefers-color-scheme: dark) {
+  :root {
+  --mucha-pergaminho: #26211A;
+  --mucha-creme: #1E1A15;
+  --mucha-tinta: #E6DAC2;
+  --mucha-tinta-suave: #ADA087;
+  --mucha-salvia: #34402F;
+  --mucha-cobre: #CC8550;
+  --mucha-cobre-escuro: #E0A070;
+  --mucha-ouro: #B39459;
+  --mucha-borda: #4A4034;
+  --tab-hover-background-color: rgba(52, 64, 47, 0.6) !important;
+  --button-primary-hover-bgcolor: #9A6A44 !important;
+  }
+}
+/* <<< noite */

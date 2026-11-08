@@ -130,7 +130,7 @@ Scope {
     PanelWindow {
         visible: raiz.aberto
         anchors { top: true; bottom: true; left: true; right: true }
-        color: Qt.rgba(58 / 255, 51 / 255, 40 / 255, 0.28)
+        color: Tema.veu
         exclusionMode: ExclusionMode.Ignore
         WlrLayershell.layer: WlrLayer.Overlay
         WlrLayershell.keyboardFocus: WlrKeyboardFocus.Exclusive
@@ -158,7 +158,7 @@ Scope {
             Rectangle {
                 anchors.fill: parent; anchors.margins: 5; radius: 3
                 color: "transparent"
-                border.color: Qt.rgba(184 / 255, 149 / 255, 90 / 255, 0.45); border.width: 1
+                border.color: Tema.fileteOuro; border.width: 1
             }
 
             Flickable {

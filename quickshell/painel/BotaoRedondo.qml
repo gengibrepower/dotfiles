@@ -12,7 +12,7 @@ Rectangle {
     implicitWidth: Tema.px(34); implicitHeight: Tema.px(34)
     radius: width / 2
     color: ma.containsMouse ? Tema.pergaminho : "transparent"
-    border.color: "#D5C7A8"; border.width: Tema.k
+    border.color: Tema.linha; border.width: Tema.k
     Accessible.role: Accessible.Button
     Accessible.name: dica
     Text {

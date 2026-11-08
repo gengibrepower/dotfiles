@@ -16,6 +16,13 @@ M.cor = {
     sombra       = "4A341E",
 }
 
+-- tema claro/escuro: hypr/scripts/tema.sh grava o modo; lido também no reload
+local estado = io.open((os.getenv("XDG_STATE_HOME") or (os.getenv("HOME") .. "/.local/state")) .. "/rice/tema")
+M.escuro = estado ~= nil and estado:read("l") == "escuro"
+if estado then estado:close() end
+M.borda_ativa   = M.escuro and "CC8550" or M.cor.cobre
+M.borda_inativa = M.escuro and "4A4436" or M.cor.salvia_clara
+
 local function rgba(hex, a) return "rgba(" .. hex .. (a or "ff") .. ")" end
 M.rgba = rgba
 
@@ -26,8 +33,8 @@ hl.config({
         gaps_out    = 4,
         border_size = 2,
         col = {
-            active_border   = rgba(M.cor.cobre),
-            inactive_border = rgba(M.cor.salvia_clara),
+            active_border   = rgba(M.borda_ativa),
+            inactive_border = rgba(M.borda_inativa),
         },
     },
 
