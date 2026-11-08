@@ -5,7 +5,7 @@ return {
   {
     "ellisonleao/gruvbox.nvim",
     opts = {
-      contrast = "", -- "hard" | "soft" | "" (médio)
+      contrast = "hard", -- "hard" | "soft" | "" (médio)
       transparent_mode = false,
     },
   },
