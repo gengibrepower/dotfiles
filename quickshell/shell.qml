@@ -6,6 +6,7 @@ import "launcher"
 import "painel"
 import "osd"
 import "energia"
+import "atalhos"
 
 // Rice Art Nouveau "Mucha" — notificações, launcher e painel de status
 ShellRoot {
@@ -14,4 +15,5 @@ ShellRoot {
     Painel {}
     Osd {}
     Energia {}
+    Atalhos {}
 }

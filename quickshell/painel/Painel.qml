@@ -363,6 +363,31 @@ Scope {
                     Rectangle {
                         implicitWidth: Tema.px(36); implicitHeight: Tema.px(36)
                         radius: width / 2
+                        color: tecArea.containsMouse ? Tema.pergaminho : "transparent"
+                        border.color: "#D5C7A8"; border.width: Tema.k
+                        Accessible.role: Accessible.Button
+                        Accessible.name: "Atalhos de teclado"
+                        Text {
+                            anchors.centerIn: parent
+                            text: "󰌌"
+                            font.family: Tema.mono
+                            font.pixelSize: Tema.px(17)
+                            color: Tema.salviaEscura
+                        }
+                        MouseArea {
+                            id: tecArea
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            onClicked: {
+                                raiz.fechar()
+                                Quickshell.execDetached(["qs", "ipc", "call", "atalhos", "abrir"])
+                            }
+                        }
+                    }
+                    Rectangle {
+                        implicitWidth: Tema.px(36); implicitHeight: Tema.px(36)
+                        radius: width / 2
                         color: engArea.containsMouse ? Tema.pergaminho : "transparent"
                         border.color: "#D5C7A8"; border.width: Tema.k
                         Accessible.role: Accessible.Button

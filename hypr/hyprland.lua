@@ -282,84 +282,85 @@ hl.device({
 local mainMod = "SUPER"
 
 -- Apps
-hl.bind(mainMod .. " + Return",       hl.dsp.exec_cmd(terminal))   -- Ghostty puro
-hl.bind(mainMod .. " + ALT + Return", hl.dsp.exec_cmd("~/.config/hypr/scripts/tmux-terminal.sh"))   -- Ghostty no tmux
-hl.bind(mainMod .. " + Q",            hl.dsp.exec_cmd(terminal))
+hl.bind(mainMod .. " + Return",       hl.dsp.exec_cmd(terminal), { desc = "Apps|Terminal" })   -- Ghostty puro
+hl.bind(mainMod .. " + ALT + Return", hl.dsp.exec_cmd("~/.config/hypr/scripts/tmux-terminal.sh"), { desc = "Apps|Terminal com tmux" })   -- Ghostty no tmux
+hl.bind(mainMod .. " + Q",            hl.dsp.exec_cmd(terminal), { desc = "Apps|Terminal" })
 -- Ferramentas de terminal em janela flutuante (classe rice.mucha.tui)
 -- fonte 12 aqui: o terminal usa 14 (código), mas btop pede no mínimo 80x24;
 -- opaco porque flutua sobre outras janelas (texto de trás vazava)
 local function tui(cmd) return 'ghostty --class=rice.mucha.tui --font-size=12 --background-opacity=1 -e ' .. cmd end
-hl.bind(mainMod .. " + E",              hl.dsp.exec_cmd(tui("yazi")))
-hl.bind(mainMod .. " + G",              hl.dsp.exec_cmd("cd ~/Projects && " .. tui("lazygit")))
-hl.bind(mainMod .. " + SHIFT + D",      hl.dsp.exec_cmd(tui("lazydocker")))
-hl.bind(mainMod .. " + SHIFT + Escape", hl.dsp.exec_cmd(tui("btop")))
-hl.bind(mainMod .. " + B",              hl.dsp.exec_cmd("firefox"))
-hl.bind(mainMod .. " + D",            hl.dsp.exec_cmd(menu))
-hl.bind(mainMod .. " + space",        hl.dsp.exec_cmd(menu))
-hl.bind(mainMod .. " + Escape",       hl.dsp.exec_cmd("qs ipc call painel toggle"))
+hl.bind(mainMod .. " + E",              hl.dsp.exec_cmd(tui("yazi")), { desc = "Apps|Arquivos (yazi)" })
+hl.bind(mainMod .. " + G",              hl.dsp.exec_cmd("cd ~/Projects && " .. tui("lazygit")), { desc = "Apps|Git (lazygit)" })
+hl.bind(mainMod .. " + SHIFT + D",      hl.dsp.exec_cmd(tui("lazydocker")), { desc = "Apps|Docker (lazydocker)" })
+hl.bind(mainMod .. " + SHIFT + Escape", hl.dsp.exec_cmd(tui("btop")), { desc = "Apps|Monitor do sistema (btop)" })
+hl.bind(mainMod .. " + B",              hl.dsp.exec_cmd("firefox"), { desc = "Apps|Navegador" })
+hl.bind(mainMod .. " + D",            hl.dsp.exec_cmd(menu), { desc = "Sistema|Launcher (Tab troca o modo)" })
+hl.bind(mainMod .. " + space",        hl.dsp.exec_cmd(menu), { desc = "Sistema|Launcher (Tab troca o modo)" })
+hl.bind(mainMod .. " + Escape",       hl.dsp.exec_cmd("qs ipc call painel toggle"), { desc = "Sistema|Painel de status" })
+hl.bind(mainMod .. " + ssharp",       hl.dsp.exec_cmd("qs ipc call atalhos toggle"), { desc = "Sistema|Esta lista de atalhos" })   -- a tecla do ? no layout alemão
 
 -- Sessão
-hl.bind(mainMod .. " + CTRL + L",     hl.dsp.exec_cmd("loginctl lock-session"))
-hl.bind(mainMod .. " + SHIFT + M",    hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))
+hl.bind(mainMod .. " + CTRL + L",     hl.dsp.exec_cmd("loginctl lock-session"), { desc = "Sistema|Bloquear a tela" })
+hl.bind(mainMod .. " + SHIFT + M",    hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"), { desc = "Sistema|Sair do Hyprland" })
 
 -- Screenshots (salva em ~/Pictures/Screenshots e copia)
-hl.bind("Print",                      hl.dsp.exec_cmd("~/.config/hypr/scripts/print.sh tela"))
-hl.bind("SHIFT + Print",              hl.dsp.exec_cmd("~/.config/hypr/scripts/print.sh area"))
-hl.bind(mainMod .. " + SHIFT + S",    hl.dsp.exec_cmd("~/.config/hypr/scripts/print.sh area"))
+hl.bind("Print",                      hl.dsp.exec_cmd("~/.config/hypr/scripts/print.sh tela"), { desc = "Captura|Tela inteira" })
+hl.bind("SHIFT + Print",              hl.dsp.exec_cmd("~/.config/hypr/scripts/print.sh area"), { desc = "Captura|Área selecionada" })
+hl.bind(mainMod .. " + SHIFT + S",    hl.dsp.exec_cmd("~/.config/hypr/scripts/print.sh area"), { desc = "Captura|Área selecionada" })
 
 -- Janelas
-hl.bind(mainMod .. " + W",            hl.dsp.window.close())
-hl.bind(mainMod .. " + F",            hl.dsp.window.fullscreen())
-hl.bind(mainMod .. " + SHIFT + V",    hl.dsp.window.float({ action = "toggle" }))
+hl.bind(mainMod .. " + W",            hl.dsp.window.close(), { desc = "Janelas|Fechar" })
+hl.bind(mainMod .. " + F",            hl.dsp.window.fullscreen(), { desc = "Janelas|Tela cheia" })
+hl.bind(mainMod .. " + SHIFT + V",    hl.dsp.window.float({ action = "toggle" }), { desc = "Janelas|Flutuar / encaixar" })
 
 -- Clipboard universal: Ctrl+Insert / Shift+Insert funcionam no terminal e nos apps
-hl.bind(mainMod .. " + C",            hl.dsp.send_shortcut({ mods = "CTRL",  key = "Insert" }))
-hl.bind(mainMod .. " + V",            hl.dsp.send_shortcut({ mods = "SHIFT", key = "Insert" }))
-hl.bind(mainMod .. " + CTRL + V",     hl.dsp.exec_cmd("qs ipc call launcher clipboard"))   -- histórico
-hl.bind(mainMod .. " + X",            hl.dsp.send_shortcut({ mods = "CTRL",  key = "X" }))
-hl.bind(mainMod .. " + P",            hl.dsp.window.pseudo())
-hl.bind(mainMod .. " + T",            hl.dsp.layout("togglesplit"))    -- dwindle
+hl.bind(mainMod .. " + C",            hl.dsp.send_shortcut({ mods = "CTRL",  key = "Insert" }), { desc = "Clipboard|Copiar" })
+hl.bind(mainMod .. " + V",            hl.dsp.send_shortcut({ mods = "SHIFT", key = "Insert" }), { desc = "Clipboard|Colar" })
+hl.bind(mainMod .. " + CTRL + V",     hl.dsp.exec_cmd("qs ipc call launcher clipboard"), { desc = "Clipboard|Histórico de cópias" })   -- histórico
+hl.bind(mainMod .. " + X",            hl.dsp.send_shortcut({ mods = "CTRL",  key = "X" }), { desc = "Clipboard|Recortar" })
+hl.bind(mainMod .. " + P",            hl.dsp.window.pseudo(), { desc = "Janelas|Pseudo-encaixe" })
+hl.bind(mainMod .. " + T",            hl.dsp.layout("togglesplit"), { desc = "Janelas|Alternar divisão" })    -- dwindle
 
 -- Foco e movimento: hjkl e setas
 local dirs = { h = "left", j = "down", k = "up", l = "right",
                left = "left", down = "down", up = "up", right = "right" }
 for key, dir in pairs(dirs) do
-    hl.bind(mainMod .. " + " .. key,            hl.dsp.focus({ direction = dir }))
-    hl.bind(mainMod .. " + SHIFT + " .. key,    hl.dsp.window.move({ direction = dir }))
+    hl.bind(mainMod .. " + " .. key,            hl.dsp.focus({ direction = dir }), { desc = "Janelas|Focar a vizinha" })
+    hl.bind(mainMod .. " + SHIFT + " .. key,    hl.dsp.window.move({ direction = dir }), { desc = "Janelas|Mover a janela" })
 end
 
 -- Workspaces: Super+[0-9] vai, Super+Shift+[0-9] leva a janela
 for i = 1, 10 do
     local key = i % 10
-    hl.bind(mainMod .. " + " .. key,             hl.dsp.focus({ workspace = i }))
-    hl.bind(mainMod .. " + SHIFT + " .. key,     hl.dsp.window.move({ workspace = i }))
+    hl.bind(mainMod .. " + " .. key,             hl.dsp.focus({ workspace = i }), { desc = "Áreas|Ir para a área" })
+    hl.bind(mainMod .. " + SHIFT + " .. key,     hl.dsp.window.move({ workspace = i }), { desc = "Áreas|Levar a janela para a área" })
 end
 
 -- Scratchpad
-hl.bind(mainMod .. " + S",            hl.dsp.workspace.toggle_special("magic"))
-hl.bind(mainMod .. " + ALT + S",      hl.dsp.window.move({ workspace = "special:magic" }))
+hl.bind(mainMod .. " + S",            hl.dsp.workspace.toggle_special("magic"), { desc = "Áreas|Rascunho (scratchpad)" })
+hl.bind(mainMod .. " + ALT + S",      hl.dsp.window.move({ workspace = "special:magic" }), { desc = "Áreas|Mandar a janela ao rascunho" })
 
 -- Workspaces com a roda do mouse
-hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
-hl.bind(mainMod .. " + mouse_up",   hl.dsp.focus({ workspace = "e-1" }))
+hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }), { desc = "Áreas|Próxima / anterior (roda)" })
+hl.bind(mainMod .. " + mouse_up",   hl.dsp.focus({ workspace = "e-1" }), { desc = "Áreas|Próxima / anterior (roda)" })
 
 -- Mover/redimensionar com Super + botão esquerdo/direito
-hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })
-hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
+hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true, desc = "Janelas|Arrastar (mouse)" })
+hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true, desc = "Janelas|Redimensionar (mouse)" })
 
 -- Laptop multimedia keys for volume and LCD brightness
-hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"), { locked = true, repeating = true })
-hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"),      { locked = true, repeating = true })
-hl.bind("XF86AudioMute",        hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),     { locked = true, repeating = true })
-hl.bind("XF86AudioMicMute",     hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),   { locked = true, repeating = true })
-hl.bind("XF86MonBrightnessUp",  hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%+ && qs ipc call osd brilho"),                  { locked = true, repeating = true })
-hl.bind("XF86MonBrightnessDown",hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%- && qs ipc call osd brilho"),                  { locked = true, repeating = true })
+hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"), { locked = true, repeating = true, desc = "Mídia|Volume" })
+hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"),      { locked = true, repeating = true, desc = "Mídia|Volume" })
+hl.bind("XF86AudioMute",        hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),     { locked = true, repeating = true, desc = "Mídia|Mudo" })
+hl.bind("XF86AudioMicMute",     hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),   { locked = true, repeating = true, desc = "Mídia|Microfone mudo" })
+hl.bind("XF86MonBrightnessUp",  hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%+ && qs ipc call osd brilho"),                  { locked = true, repeating = true, desc = "Mídia|Brilho" })
+hl.bind("XF86MonBrightnessDown",hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%- && qs ipc call osd brilho"),                  { locked = true, repeating = true, desc = "Mídia|Brilho" })
 
 -- Requires playerctl
-hl.bind("XF86AudioNext",  hl.dsp.exec_cmd("playerctl next"),       { locked = true })
-hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
-hl.bind("XF86AudioPlay",  hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
-hl.bind("XF86AudioPrev",  hl.dsp.exec_cmd("playerctl previous"),   { locked = true })
+hl.bind("XF86AudioNext",  hl.dsp.exec_cmd("playerctl next"),       { locked = true, desc = "Mídia|Faixa seguinte / anterior" })
+hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true, desc = "Mídia|Tocar / pausar" })
+hl.bind("XF86AudioPlay",  hl.dsp.exec_cmd("playerctl play-pause"), { locked = true, desc = "Mídia|Tocar / pausar" })
+hl.bind("XF86AudioPrev",  hl.dsp.exec_cmd("playerctl previous"),   { locked = true, desc = "Mídia|Faixa seguinte / anterior" })
 
 
 --------------------------------
