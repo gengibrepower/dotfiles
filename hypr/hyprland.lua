@@ -52,6 +52,7 @@ local menu        = "fuzzel"
 hl.on("hyprland.start", function ()
     hl.exec_cmd("systemctl --user start hyprpolkitagent")
     hl.exec_cmd("hyprpaper")
+    hl.exec_cmd("hypridle")
 --   hl.exec_cmd(terminal)
 --   hl.exec_cmd("nm-applet")
 --   hl.exec_cmd("waybar & hyprpaper & firefox")
@@ -282,7 +283,7 @@ hl.bind(mainMod .. " + R",            hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + space",        hl.dsp.exec_cmd(menu))   -- vira o launcher do Quickshell
 
 -- Sessão
-hl.bind(mainMod .. " + CTRL + L",     hl.dsp.exec_cmd("pidof hyprlock || hyprlock"))
+hl.bind(mainMod .. " + CTRL + L",     hl.dsp.exec_cmd("loginctl lock-session"))
 hl.bind(mainMod .. " + SHIFT + M",    hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"))
 
 -- Screenshots (salva em ~/Pictures/Screenshots e copia)
