@@ -51,8 +51,8 @@ hl.config({
         -- forte o bastante para as gravuras virarem textura, não ruído
         blur = {
             enabled           = true,
-            size              = 14,
-            passes            = 3,
+            size              = 5,
+            passes            = 2,
             noise             = 0.012,
             contrast          = 0.9,
             brightness        = 1.0,

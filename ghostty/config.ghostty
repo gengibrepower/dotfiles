@@ -12,7 +12,7 @@ gtk-titlebar = false
 confirm-close-surface = false
 
 # translucidez + blur do Hyprland (decoration.blur em hypr/mucha.lua)
-background-opacity = 0.86
+background-opacity = 0.80
 # sem isto o Ghostty pede ao compositor para não desfocar
 background-blur = true
 

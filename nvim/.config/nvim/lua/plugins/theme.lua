@@ -1,6 +1,5 @@
--- Rice "Mucha": colorscheme próprio em colors/mucha.lua (fundo transparente,
--- contraste >= 4.5:1 sobre o creme do Ghostty). O gruvbox claro segue
--- instalado como alternativa: :colorscheme gruvbox (com background=light).
+-- Rice "Mucha": gruvbox claro transparente (escolhido no lugar do
+-- colors/mucha.lua, que segue no repo: :colorscheme mucha para testar).
 return {
   {
     "ellisonleao/gruvbox.nvim",
@@ -12,7 +11,10 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "mucha",
+      colorscheme = function()
+        vim.o.background = "light"
+        vim.cmd.colorscheme("gruvbox")
+      end,
     },
   },
 }
