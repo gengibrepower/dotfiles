@@ -30,6 +30,7 @@ Scope {
             return
         }
         if (janelas.length) indice = (indice + d + janelas.length) % janelas.length
+        semTab.restart()
     }
 
     function montar(json) {
@@ -49,15 +50,20 @@ Scope {
         indice = lista.length > 1 ? (passoPendente < 0 ? lista.length - 1 : 1) : 0
         passoPendente = 0
         aberto = true
+        semTab.restart()
     }
+
+    // rede de segurança: sem Tab por 1,2 s, escolhe a selecionada
+    Timer { id: semTab; interval: 1200; onTriggered: raiz.confirmar() }
 
     function confirmar() {
         if (!aberto) return
         const j = janelas[indice]
         aberto = false
+        semTab.stop()
         if (j) Hyprland.dispatch(`hl.dsp.focus({ window = "address:${j.endereco}" })`)
     }
-    function cancelar() { aberto = false }
+    function cancelar() { aberto = false; semTab.stop() }
 
     Process {
         id: leitor
@@ -79,7 +85,8 @@ Scope {
         color: Qt.rgba(58 / 255, 51 / 255, 40 / 255, 0.25)
         exclusionMode: ExclusionMode.Ignore
         WlrLayershell.layer: WlrLayer.Overlay
-        WlrLayershell.keyboardFocus: WlrKeyboardFocus.Exclusive
+        // sem foco de teclado: o Alt solto chega ao Hyprland (bind de release)
+        WlrLayershell.keyboardFocus: WlrKeyboardFocus.None
         WlrLayershell.namespace: "mucha-alternar"
 
         MouseArea { anchors.fill: parent; onClicked: raiz.cancelar() }

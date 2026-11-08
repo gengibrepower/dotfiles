@@ -324,7 +324,9 @@ hl.bind(mainMod .. " + T",            hl.dsp.layout("togglesplit"), { desc = "Ja
 -- Alt+Tab com prévia (quickshell/alternar); soltar o Alt escolhe
 hl.bind("ALT + Tab",         hl.dsp.exec_cmd("qs ipc call alternar proxima"),  { desc = "Janelas|Alternar janelas (solte o Alt)" })
 hl.bind("ALT + SHIFT + Tab", hl.dsp.exec_cmd("qs ipc call alternar anterior"), { desc = "Janelas|Alternar janelas (solte o Alt)" })
-hl.bind("ALT + Alt_L",       hl.dsp.exec_cmd("qs ipc call alternar confirmar"), { release = true, desc = "Oculto|soltar o Alt no Alt+Tab" })
+-- soltar o Alt: dispara com qualquer modificador (no release o ALT já pode ter saído da máscara)
+hl.bind("Alt_L", hl.dsp.exec_cmd("qs ipc call alternar confirmar"), { release = true, ignore_mods = true, transparent = true, desc = "Oculto|soltar o Alt no Alt+Tab" })
+hl.bind("Alt_R", hl.dsp.exec_cmd("qs ipc call alternar confirmar"), { release = true, ignore_mods = true, transparent = true, desc = "Oculto|soltar o Alt no Alt+Tab" })
 
 -- Foco e movimento: hjkl e setas
 local dirs = { h = "left", j = "down", k = "up", l = "right",
