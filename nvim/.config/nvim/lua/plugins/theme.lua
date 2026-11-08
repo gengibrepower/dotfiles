@@ -1,5 +1,6 @@
--- Rice "Mucha": terminal creme (#F7F1E3). Gruvbox claro casa com os tons
--- de pergaminho e marrom; o fundo transparente deixa o creme do Ghostty.
+-- Rice "Mucha": colorscheme próprio em colors/mucha.lua (fundo transparente,
+-- contraste >= 4.5:1 sobre o creme do Ghostty). O gruvbox claro segue
+-- instalado como alternativa: :colorscheme gruvbox (com background=light).
 return {
   {
     "ellisonleao/gruvbox.nvim",
@@ -11,10 +12,7 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = function()
-        vim.o.background = "light"
-        vim.cmd.colorscheme("gruvbox")
-      end,
+      colorscheme = "mucha",
     },
   },
 }
