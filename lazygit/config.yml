@@ -16,5 +16,6 @@ gui:
     unstagedChangesColor: ["#8A4B26"]
     defaultFgColor: ["#3A3328"]
 git:
-  paging:
-    colorArg: always
+  diffRenderers:
+    - colorArg: always
+      type: rawGit
