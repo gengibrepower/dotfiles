@@ -1,0 +1,37 @@
+# Ghostty — rice Art Nouveau "Mucha"
+# Paleta: ~/Projects/dotfiles/hypr/mucha.lua
+
+font-family = Maple Mono NF
+font-size = 11.5
+
+window-padding-x = 14
+window-padding-y = 12
+window-padding-balance = true
+window-decoration = none
+gtk-titlebar = false
+confirm-close-surface = false
+
+background = #F7F1E3
+foreground = #3A3328
+cursor-color = #3A3328
+cursor-text = #F7F1E3
+selection-background = #DCE3D2
+selection-foreground = #3A3328
+
+# preto, vermelho, verde, amarelo, azul, magenta, ciano, branco
+palette = 0=#3A3328
+palette = 1=#8A4B26
+palette = 2=#4F5E45
+palette = 3=#8F6A2C
+palette = 4=#4E6470
+palette = 5=#7A4E5E
+palette = 6=#4D6B62
+palette = 7=#E2D7BF
+palette = 8=#6E6553
+palette = 9=#B0683A
+palette = 10=#6B7D5E
+palette = 11=#B8955A
+palette = 12=#6A8290
+palette = 13=#9A6A7A
+palette = 14=#6A8A80
+palette = 15=#EFE6D2
