@@ -318,6 +318,8 @@ hl.bind(mainMod .. " + SHIFT + V",    hl.dsp.window.float({ action = "toggle" })
 hl.bind(mainMod .. " + C",            hl.dsp.send_shortcut({ mods = "CTRL",  key = "Insert" }), { desc = "Clipboard|Copiar" })
 hl.bind(mainMod .. " + V",            hl.dsp.send_shortcut({ mods = "SHIFT", key = "Insert" }), { desc = "Clipboard|Colar" })
 hl.bind(mainMod .. " + CTRL + V",     hl.dsp.exec_cmd("qs ipc call launcher clipboard"), { desc = "Clipboard|Histórico de cópias" })   -- histórico
+hl.bind(mainMod .. " + period",        hl.dsp.exec_cmd("qs ipc call launcher emoji"), { desc = "Apps|Emoji (copia)" })
+hl.bind(mainMod .. " + CTRL + C",     hl.dsp.exec_cmd("qs ipc call launcher calc"),  { desc = "Apps|Calculadora (copia o resultado)" })
 hl.bind(mainMod .. " + X",            hl.dsp.send_shortcut({ mods = "CTRL",  key = "X" }), { desc = "Clipboard|Recortar" })
 hl.bind(mainMod .. " + P",            hl.dsp.window.pseudo(), { desc = "Janelas|Pseudo-encaixe" })
 hl.bind(mainMod .. " + T",            hl.dsp.layout("togglesplit"), { desc = "Janelas|Alternar divisão" })    -- dwindle

@@ -69,3 +69,100 @@ function itensArquivos(linhas, home) {
                  nome: nome + (pasta ? "/" : ""), detalhe: (pasta ? "pasta" : "arquivo") + " · " + dir }
     })
 }
+
+// ---- calculadora: parser próprio (sem eval) ----
+// + - * / ^ % ( ), vírgula decimal, funções sqrt raiz sin cos tan log ln abs
+// round floor ceil, constantes pi e. Devolve número ou null.
+const funcoes = {
+    sqrt: Math.sqrt, raiz: Math.sqrt, sin: Math.sin, sen: Math.sin, cos: Math.cos,
+    tan: Math.tan, log: Math.log10, ln: Math.log, abs: Math.abs,
+    round: Math.round, floor: Math.floor, ceil: Math.ceil, exp: Math.exp
+}
+const constantes = { pi: Math.PI, e: Math.E }
+
+function calcular(texto) {
+    const s = texto.replace(/^=/, "").replace(/,/g, ".").replace(/×/g, "*").replace(/÷/g, "/").trim()
+    if (s === "") return null
+    const toks = s.match(/\d+\.?\d*|\.\d+|[a-z]+|\*\*|[-+*\/^%()]|\S/gi)
+    let i = 0
+    const ver = () => toks[i], tomar = () => toks[i++]
+    function primario() {
+        const t = tomar()
+        if (t === undefined) throw 0
+        if (/^[\d.]/.test(t)) return parseFloat(t)
+        if (t === "(") { const v = soma(); if (tomar() !== ")") throw 0; return v }
+        if (t === "-") return -potencia()
+        if (t === "+") return potencia()
+        const nome = t.toLowerCase()
+        if (nome in constantes) return constantes[nome]
+        if (nome in funcoes) {
+            if (ver() === "(") { tomar(); const v = soma(); if (tomar() !== ")") throw 0; return funcoes[nome](v) }
+            return funcoes[nome](potencia())
+        }
+        throw 0
+    }
+    function potencia() {
+        const b = primario()
+        if (ver() === "^" || ver() === "**") { tomar(); return Math.pow(b, potencia()) }
+        return b
+    }
+    function produto() {
+        let v = potencia()
+        for (;;) {
+            const t = ver()
+            if (t === "*") { tomar(); v *= potencia() }
+            else if (t === "/") { tomar(); v /= potencia() }
+            else if (t === "%") { tomar(); v %= potencia() }
+            else if (t === "(" || (t && /^[a-z\d.]/i.test(t))) v *= potencia()   // 2pi, 3(4)
+            else return v
+        }
+    }
+    function soma() {
+        let v = produto()
+        for (;;) {
+            const t = ver()
+            if (t === "+") { tomar(); v += produto() }
+            else if (t === "-") { tomar(); v -= produto() }
+            else return v
+        }
+    }
+    try {
+        const v = soma()
+        if (i !== toks.length || !isFinite(v)) return null
+        return v
+    } catch (e) { return null }
+}
+
+// parece conta? (tem dígito e operador, ou começa com =)
+function pareceConta(q) {
+    q = q.trim()
+    return q.startsWith("=") || (/\d/.test(q) && /[-+*\/^%×÷(]/.test(q.replace(/^-/, "")) && /^[\d\s.,+\-*\/^%()×÷a-z]+$/i.test(q))
+}
+
+function formatarNumero(v) {
+    if (Number.isInteger(v)) return v.toLocaleString("pt-BR", { useGrouping: false })
+    return String(parseFloat(v.toPrecision(12))).replace(".", ",")
+}
+
+function itemConta(consulta) {
+    const v = calcular(consulta)
+    if (v === null) return null
+    const r = formatarNumero(v)
+    return { tipo: "conta", valor: r, nome: "= " + r, detalhe: "Enter copia" }
+}
+
+// ---- emojis: linhas "emoji\tnome" ----
+function buscarEmojis(linhas, consulta) {
+    const q = consulta.trim().toLowerCase()
+    const res = []
+    for (const l of linhas) {
+        const t = l.indexOf("\t")
+        if (t < 0) continue
+        const nome = l.slice(t + 1)
+        const p = q === "" ? 0 : pontuar(q, nome)
+        if (p < 0) continue
+        res.push({ p: p, tipo: "emoji", emoji: l.slice(0, t), nome: l.slice(0, t) + "   " + nome, detalhe: "" })
+    }
+    if (q !== "") res.sort((a, b) => b.p - a.p)
+    return res.slice(0, 120)
+}

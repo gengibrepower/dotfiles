@@ -7,14 +7,15 @@ import Quickshell.Wayland
 import "../comum"
 import "busca.js" as Busca
 
-// Launcher (Super+D): apps, arquivos e clipboard; Tab troca o modo.
+// Launcher (Super+D): apps, arquivos, clipboard, emoji e calculadora; Tab troca o modo.
+// Contas digitadas no modo apps (ex.: 2+2, =sqrt(2)) mostram o resultado no topo.
 // Abre via IPC: qs ipc call launcher toggle
 Scope {
     id: raiz
 
     property bool aberto: false
-    property string modo: "apps"          // "apps" | "arquivos" | "clipboard"
-    readonly property var modos: ["apps", "arquivos", "clipboard"]
+    property string modo: "apps"          // "apps" | "arquivos" | "clipboard" | "emoji" | "calc"
+    readonly property var modos: ["apps", "arquivos", "clipboard", "emoji", "calc"]
     property var linhasClip: []
     property string consulta: ""
     property var resultados: []
@@ -46,7 +47,16 @@ Scope {
 
     function atualizar() {
         if (modo === "apps") {
-            resultados = Busca.buscarApps(DesktopEntries.applications.values, consulta, usosArquivo.usos)
+            const apps = Busca.buscarApps(DesktopEntries.applications.values, consulta, usosArquivo.usos)
+            const conta = Busca.pareceConta(consulta) ? Busca.itemConta(consulta) : null
+            resultados = conta ? [conta].concat(apps) : apps
+            selecionado = 0
+        } else if (modo === "calc") {
+            const conta = Busca.itemConta(consulta)
+            resultados = conta ? [conta] : []
+            selecionado = 0
+        } else if (modo === "emoji") {
+            resultados = Busca.buscarEmojis(linhasEmoji, consulta)
             selecionado = 0
         } else if (modo === "clipboard") {
             filtrarClip()
@@ -67,6 +77,10 @@ Scope {
             else e.execute()
         } else if (item.tipo === "clip") {
             Quickshell.execDetached(["sh", "-c", 'printf "%s" "$1" | cliphist decode | wl-copy', "sh", item.linha])
+        } else if (item.tipo === "conta") {
+            Quickshell.execDetached(["wl-copy", "--", item.valor])
+        } else if (item.tipo === "emoji") {
+            Quickshell.execDetached(["wl-copy", "--", item.emoji])
         } else if (item.tipo === "pasta") {
             Quickshell.execDetached(["ghostty", "-e", "yazi", item.caminho])
         } else {
@@ -80,8 +94,14 @@ Scope {
         function toggle(): void { raiz.aberto ? raiz.fechar() : raiz.abrir("apps") }
         function abrir(): void { raiz.abrir("apps") }
         function clipboard(): void { raiz.aberto && raiz.modo === "clipboard" ? raiz.fechar() : raiz.abrir("clipboard") }
+        function emoji(): void { raiz.aberto && raiz.modo === "emoji" ? raiz.fechar() : raiz.abrir("emoji") }
+        function calc(): void { raiz.aberto && raiz.modo === "calc" ? raiz.fechar() : raiz.abrir("calc") }
         function fechar(): void { raiz.fechar() }
     }
+
+    // nomes dos emojis (gerado do Unicode: emoji \t nome em inglês)
+    readonly property var linhasEmoji: arquivoEmoji.text().split("\n")
+    FileView { id: arquivoEmoji; path: Qt.resolvedUrl("emojis.tsv"); blockLoading: true }
 
     // contagem de uso dos apps, para ordenar
     FileView {
@@ -210,7 +230,9 @@ Scope {
                         Text {
                             anchors.verticalCenter: parent.verticalCenter
                             visible: campo.text === ""
-                            text: raiz.modo === "apps" ? "Abrir…" : raiz.modo === "arquivos" ? "Buscar arquivos em ~" : "Buscar no histórico de cópias"
+                            text: ({ apps: "Abrir… (ou faça uma conta)", arquivos: "Buscar arquivos em ~",
+                                     clipboard: "Buscar no histórico de cópias", emoji: "Buscar emoji (em inglês: heart, fire…)",
+                                     calc: "Conta: 2^10, sqrt(2), 15% de… = 0,15*x" })[raiz.modo]
                             font: campo.font
                             color: Tema.tintaSuave
                         }
@@ -312,7 +334,9 @@ Scope {
                         text: raiz.modo === "arquivos" && raiz.consulta.trim().length < 2
                               ? "Digite ao menos duas letras"
                               : raiz.modo === "clipboard" && raiz.linhasClip.length <= 1 && raiz.consulta === ""
-                              ? "Histórico vazio — copie algo" : "Nada encontrado"
+                              ? "Histórico vazio — copie algo"
+                              : raiz.modo === "calc" ? (raiz.consulta.trim() === "" ? "Digite uma conta" : "Conta incompleta")
+                              : "Nada encontrado"
                         font.family: Tema.ui
                         font.pixelSize: Tema.px(15)
                         color: Tema.tintaSuave
@@ -321,7 +345,7 @@ Scope {
 
                 RowLayout {
                     Layout.fillWidth: true
-                    Text { text: "Enter abre"; font.family: Tema.ui; font.pixelSize: Tema.px(13); color: Tema.tintaSuave }
+                    Text { text: raiz.modo === "emoji" || raiz.modo === "calc" ? "Enter copia" : "Enter abre"; font.family: Tema.ui; font.pixelSize: Tema.px(13); color: Tema.tintaSuave }
                     Item { Layout.fillWidth: true }
                     Text { text: "Tab troca o modo"; font.family: Tema.ui; font.pixelSize: Tema.px(13); color: Tema.tintaSuave }
                 }
