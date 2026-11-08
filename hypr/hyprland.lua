@@ -293,6 +293,7 @@ hl.bind(mainMod .. " + E",              hl.dsp.exec_cmd(tui("yazi")), { desc = "
 hl.bind(mainMod .. " + G",              hl.dsp.exec_cmd("cd ~/Projects && " .. tui("lazygit")), { desc = "Apps|Git (lazygit)" })
 hl.bind(mainMod .. " + SHIFT + D",      hl.dsp.exec_cmd(tui("lazydocker")), { desc = "Apps|Docker (lazydocker)" })
 hl.bind(mainMod .. " + SHIFT + Escape", hl.dsp.exec_cmd(tui("btop")), { desc = "Apps|Monitor do sistema (btop)" })
+hl.bind(mainMod .. " + SHIFT + U",      hl.dsp.exec_cmd(tui("~/.config/hypr/scripts/atualizar.sh")), { desc = "Sistema|Atualizar o sistema" })
 hl.bind(mainMod .. " + B",              hl.dsp.exec_cmd("firefox"), { desc = "Apps|Navegador" })
 hl.bind(mainMod .. " + D",            hl.dsp.exec_cmd(menu), { desc = "Sistema|Launcher (Tab troca o modo)" })
 hl.bind(mainMod .. " + space",        hl.dsp.exec_cmd(menu), { desc = "Sistema|Launcher (Tab troca o modo)" })

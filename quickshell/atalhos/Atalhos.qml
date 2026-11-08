@@ -15,6 +15,7 @@ Scope {
     property bool aberto: false
     property var colunas: [[], [], []]
 
+    property real larguraColuna: 300
     readonly property var ordem: ["Apps", "Sistema", "Janelas", "Áreas", "Clipboard", "Captura", "Mídia", "tmux"]
 
     readonly property var tmux: [
@@ -169,6 +170,7 @@ Scope {
                 ColumnLayout {
                     id: conteudo
                     width: parent.width
+                    onWidthChanged: raiz.larguraColuna = (width - 2 * 28) / 3
                     spacing: 14
 
                     RowLayout {
@@ -197,8 +199,8 @@ Scope {
                             delegate: ColumnLayout {
                                 id: coluna
                                 required property var modelData
-                                Layout.fillWidth: true
-                                Layout.preferredWidth: 1
+                                // largura fixa (1/3): depender do conteúdo gerava rearranjo recursivo
+                                Layout.preferredWidth: raiz.larguraColuna
                                 Layout.alignment: Qt.AlignTop
                                 spacing: 16
 
@@ -234,7 +236,7 @@ Scope {
                                                     elide: Text.ElideRight
                                                 }
                                                 Text {
-                                                    Layout.maximumWidth: coluna.width * 0.7
+                                                    Layout.maximumWidth: raiz.larguraColuna * 0.7
                                                     text: linha.modelData.teclas
                                                     font.family: Tema.mono; font.pixelSize: 12
                                                     color: Tema.cobreEscuro

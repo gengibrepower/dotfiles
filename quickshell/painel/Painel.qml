@@ -105,6 +105,28 @@ Scope {
         return c ? c.name : "ligado"
     }
 
+    // ---- atualizações pendentes (checkupdates + paru -Qua) ----
+    property int atualizacoes: -1          // -1 = ainda não contou
+    Process {
+        id: contarAtualizacoes
+        command: ["sh", "-c", "a=$(checkupdates 2>/dev/null | wc -l); b=$(command -v paru >/dev/null && paru -Qua 2>/dev/null | wc -l || echo 0); echo $((a + b))"]
+        stdout: StdioCollector { onStreamFinished: raiz.atualizacoes = parseInt(text.trim()) || 0 }
+    }
+    Timer {
+        // 1ª contagem um minuto após o login (rede já de pé), depois a cada 2 h
+        interval: 60 * 1000; running: true
+        onTriggered: { contarAtualizacoes.running = true; interval = 2 * 60 * 60 * 1000; repeat = true; restart() }
+    }
+    IpcHandler {
+        target: "atualizacoes"
+        function recontar(): void { contarAtualizacoes.running = true }
+    }
+    function atualizarSistema() {
+        fechar()
+        Quickshell.execDetached(["ghostty", "--class=rice.mucha.tui", "--font-size=12", "--background-opacity=1",
+                                 "-e", raiz.home + "/.config/hypr/scripts/atualizar.sh"])
+    }
+
     readonly property var dias: ["domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sábado"]
     readonly property var meses: ["jan", "fev", "mar", "abr", "mai", "jun", "jul", "ago", "set", "out", "nov", "dez"]
     SystemClock { id: relogio; precision: SystemClock.Minutes }
@@ -312,6 +334,17 @@ Scope {
                         valor: Estado.naoPerturbe ? "ligado" : "desligado"
                         ativo: Estado.naoPerturbe
                         onClicado: Estado.naoPerturbe = !Estado.naoPerturbe
+                    }
+                    Bloco {
+                        Layout.fillWidth: true
+                        Layout.columnSpan: 2
+                        icone: "󰚰"
+                        rotulo: "Sistema · clique para atualizar"
+                        valor: raiz.atualizacoes < 0 ? "verificando…"
+                             : raiz.atualizacoes === 0 ? "em dia"
+                             : raiz.atualizacoes === 1 ? "1 atualização" : raiz.atualizacoes + " atualizações"
+                        ativo: raiz.atualizacoes > 0
+                        onClicado: raiz.atualizarSistema()
                     }
                 }
 
