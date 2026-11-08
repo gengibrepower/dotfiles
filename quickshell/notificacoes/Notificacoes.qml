@@ -8,8 +8,7 @@ import "../comum"
 Scope {
     id: raiz
 
-    // "Não perturbe": guarda as notificações, mas só mostra as críticas.
-    property bool naoPerturbe: false
+    // "Não perturbe" (Estado.naoPerturbe): guarda as notificações, mas só mostra as críticas.
 
     NotificationServer {
         id: servidor
@@ -61,7 +60,7 @@ Scope {
                 delegate: CartaoNotificacao {
                     required property var modelData
                     notificacao: modelData
-                    visible: !raiz.naoPerturbe || critica
+                    visible: !Estado.naoPerturbe || critica
                 }
             }
         }

@@ -1,3 +1,5 @@
 module comum
 singleton Tema 1.0 Tema.qml
+singleton Estado 1.0 Estado.qml
 Cartela 1.0 Cartela.qml
+Arco 1.0 Arco.qml
