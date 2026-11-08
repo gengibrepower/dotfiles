@@ -7,25 +7,49 @@ import Quickshell.Wayland
 import "../comum"
 import "busca.js" as Busca
 
-// Launcher (Super+Espaço): apps e arquivos; Tab troca o modo.
+// Launcher (Super+D): apps, arquivos e clipboard; Tab troca o modo.
 // Abre via IPC: qs ipc call launcher toggle
 Scope {
     id: raiz
 
     property bool aberto: false
-    property string modo: "apps"          // "apps" | "arquivos"
+    property string modo: "apps"          // "apps" | "arquivos" | "clipboard"
+    readonly property var modos: ["apps", "arquivos", "clipboard"]
+    property var linhasClip: []
     property string consulta: ""
     property var resultados: []
     property int selecionado: 0
     readonly property string home: Quickshell.env("HOME")
 
-    function abrir() { consulta = ""; selecionado = 0; modo = "apps"; atualizar(); aberto = true }
+    function abrir(m) {
+        consulta = ""; selecionado = 0; modo = m || "apps"; resultados = []
+        if (modo === "clipboard") lerClip.running = true
+        atualizar(); aberto = true
+    }
+    function trocarModo() {
+        modo = modos[(modos.indexOf(modo) + 1) % modos.length]
+        resultados = []
+        if (modo === "clipboard") lerClip.running = true
+        atualizar()
+    }
+    function filtrarClip() {
+        const q = consulta.trim().toLowerCase()
+        resultados = linhasClip.filter(l => l !== "").map(l => {
+            const prev = l.slice(l.indexOf("\t") + 1).replace(/\s+/g, " ").trim()
+            const img = prev.startsWith("[[ binary data")
+            return { tipo: "clip", linha: l, nome: img ? "imagem" : prev,
+                     detalhe: img ? prev.replace(/^\[\[ binary data /, "").replace(/ \]\]$/, "") : "" }
+        }).filter(it => q === "" || it.nome.toLowerCase().indexOf(q) >= 0).slice(0, 200)
+        selecionado = 0
+    }
     function fechar() { aberto = false }
 
     function atualizar() {
         if (modo === "apps") {
             resultados = Busca.buscarApps(DesktopEntries.applications.values, consulta, usosArquivo.usos)
             selecionado = 0
+        } else if (modo === "clipboard") {
+            filtrarClip()
         } else {
             atraso.restart()
         }
@@ -41,6 +65,8 @@ Scope {
             arquivoUsos.writeAdapter()
             if (e.runInTerminal) Quickshell.execDetached(["ghostty", "-e"].concat(e.command))
             else e.execute()
+        } else if (item.tipo === "clip") {
+            Quickshell.execDetached(["sh", "-c", 'printf "%s" "$1" | cliphist decode | wl-copy', "sh", item.linha])
         } else if (item.tipo === "pasta") {
             Quickshell.execDetached(["ghostty", "-e", "yazi", item.caminho])
         } else {
@@ -51,8 +77,9 @@ Scope {
 
     IpcHandler {
         target: "launcher"
-        function toggle(): void { raiz.aberto ? raiz.fechar() : raiz.abrir() }
-        function abrir(): void { raiz.abrir() }
+        function toggle(): void { raiz.aberto ? raiz.fechar() : raiz.abrir("apps") }
+        function abrir(): void { raiz.abrir("apps") }
+        function clipboard(): void { raiz.aberto && raiz.modo === "clipboard" ? raiz.fechar() : raiz.abrir("clipboard") }
         function fechar(): void { raiz.fechar() }
     }
 
@@ -77,6 +104,16 @@ Scope {
             buscaFd.command = ["fd", "-i", "--max-results", "40", "--base-directory", raiz.home,
                                "--", raiz.consulta.trim()]
             buscaFd.running = true
+        }
+    }
+    Process {
+        id: lerClip
+        command: ["cliphist", "list"]
+        stdout: StdioCollector {
+            onStreamFinished: {
+                raiz.linhasClip = text.split("\n")
+                if (raiz.modo === "clipboard") raiz.filtrarClip()
+            }
         }
     }
     Process {
@@ -173,7 +210,7 @@ Scope {
                         Text {
                             anchors.verticalCenter: parent.verticalCenter
                             visible: campo.text === ""
-                            text: raiz.modo === "apps" ? "Abrir…" : "Buscar arquivos em ~"
+                            text: raiz.modo === "apps" ? "Abrir…" : raiz.modo === "arquivos" ? "Buscar arquivos em ~" : "Buscar no histórico de cópias"
                             font: campo.font
                             color: Tema.tintaSuave
                         }
@@ -187,9 +224,7 @@ Scope {
                             else if (ev.key === Qt.Key_Up || (ctrl && (ev.key === Qt.Key_K || ev.key === Qt.Key_P)))
                                 raiz.selecionado = Math.max(raiz.selecionado - 1, 0)
                             else if (ev.key === Qt.Key_Tab || ev.key === Qt.Key_Backtab) {
-                                raiz.modo = raiz.modo === "apps" ? "arquivos" : "apps"
-                                raiz.resultados = []
-                                raiz.atualizar()
+                                raiz.trocarModo()
                             }
                             else if (ev.key === Qt.Key_Return || ev.key === Qt.Key_Enter)
                                 raiz.lancar(raiz.resultados[raiz.selecionado])
@@ -275,7 +310,9 @@ Scope {
                         anchors.centerIn: parent
                         visible: lista.count === 0
                         text: raiz.modo === "arquivos" && raiz.consulta.trim().length < 2
-                              ? "Digite ao menos duas letras" : "Nada encontrado"
+                              ? "Digite ao menos duas letras"
+                              : raiz.modo === "clipboard" && raiz.linhasClip.length <= 1 && raiz.consulta === ""
+                              ? "Histórico vazio — copie algo" : "Nada encontrado"
                         font.family: Tema.ui
                         font.pixelSize: Tema.px(15)
                         color: Tema.tintaSuave

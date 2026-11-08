@@ -54,6 +54,8 @@ hl.on("hyprland.start", function ()
     hl.exec_cmd("hyprpaper")
     hl.exec_cmd("hypridle")
     hl.exec_cmd("qs")   -- quickshell: notificações (e depois launcher/painel)
+    hl.exec_cmd("wl-paste --type text --watch cliphist store")
+    hl.exec_cmd("wl-paste --type image --watch cliphist store")
 --   hl.exec_cmd(terminal)
 --   hl.exec_cmd("nm-applet")
 --   hl.exec_cmd("waybar & hyprpaper & firefox")
@@ -308,6 +310,7 @@ hl.bind(mainMod .. " + SHIFT + V",    hl.dsp.window.float({ action = "toggle" })
 -- Clipboard universal: Ctrl+Insert / Shift+Insert funcionam no terminal e nos apps
 hl.bind(mainMod .. " + C",            hl.dsp.send_shortcut({ mods = "CTRL",  key = "Insert" }))
 hl.bind(mainMod .. " + V",            hl.dsp.send_shortcut({ mods = "SHIFT", key = "Insert" }))
+hl.bind(mainMod .. " + CTRL + V",     hl.dsp.exec_cmd("qs ipc call launcher clipboard"))   -- histórico
 hl.bind(mainMod .. " + X",            hl.dsp.send_shortcut({ mods = "CTRL",  key = "X" }))
 hl.bind(mainMod .. " + P",            hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + T",            hl.dsp.layout("togglesplit"))    -- dwindle
