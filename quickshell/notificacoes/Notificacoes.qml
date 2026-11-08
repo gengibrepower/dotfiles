@@ -22,6 +22,7 @@ Scope {
 
         onNotification: n => {
             n.tracked = true
+            Estado.registrar(n)
         }
     }
 

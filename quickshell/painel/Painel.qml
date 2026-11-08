@@ -20,21 +20,25 @@ Scope {
     property string rede: "…"
     property string confirmando: ""      // ação de sessão aguardando 2º clique
     property bool sessaoAberta: false
+    property string pagina: ""           // "" | "wifi" | "bt" | "notif"
+    function irPara(p) { pagina = p; if (p === "notif") Estado.naoLidas = 0 }
 
     function abrir() {
-        sessaoAberta = false; confirmando = ""
+        sessaoAberta = false; confirmando = ""; pagina = ""
         if (atualizacoes < 0 && !contarAtualizacoes.running) contarAtualizacoes.running = true
         lerBrilho.running = true
         lerRede.running = true
         Estado.painelAberto = true
     }
     function fechar() { Estado.painelAberto = false }
+    Timer { id: atrasoRede; interval: 1500; onTriggered: lerRede.running = true }
 
     IpcHandler {
         target: "painel"
         function toggle(): void { Estado.painelAberto ? raiz.fechar() : raiz.abrir() }
         function abrir(): void { raiz.abrir() }
         function fechar(): void { raiz.fechar() }
+        function pagina(p: string): void { raiz.abrir(); raiz.irPara(p) }   // wifi | bt | notif
     }
 
     // ---- dados ----
@@ -187,7 +191,7 @@ Scope {
         Item {
             anchors.fill: parent
             focus: true
-            Keys.onEscapePressed: raiz.fechar()
+            Keys.onEscapePressed: raiz.pagina !== "" ? raiz.pagina = "" : raiz.fechar()
         }
 
         Item {
@@ -207,6 +211,7 @@ Scope {
             }
 
             ColumnLayout {
+                visible: raiz.pagina === ""
                 anchors.fill: parent
                 anchors.topMargin: Tema.px(100)
                 anchors.leftMargin: Tema.px(26)
@@ -299,6 +304,8 @@ Scope {
                     }
                 }
 
+                Midia { id: midia; Layout.fillWidth: true }
+
                 // blocos
                 GridLayout {
                     Layout.fillWidth: true
@@ -309,9 +316,9 @@ Scope {
                     Bloco {
                         Layout.fillWidth: true
                         icone: raiz.rede === "cabo" ? "" : ""
-                        rotulo: "Rede"
+                        rotulo: "Rede ›"
                         valor: raiz.rede
-                        onClicado: { raiz.fechar(); Quickshell.execDetached(["ghostty", "-e", "nmtui"]) }
+                        onClicado: raiz.irPara("wifi")
                     }
                     Bloco {
                         Layout.fillWidth: true
@@ -323,10 +330,10 @@ Scope {
                     Bloco {
                         Layout.fillWidth: true
                         icone: ""
-                        rotulo: "Bluetooth"
+                        rotulo: "Bluetooth ›"
                         valor: raiz.textoBluetooth()
                         ativo: raiz.adaptador?.enabled ?? false
-                        onClicado: { if (raiz.adaptador) raiz.adaptador.enabled = !raiz.adaptador.enabled }
+                        onClicado: raiz.irPara("bt")
                     }
                     Bloco {
                         Layout.fillWidth: true
@@ -393,6 +400,14 @@ Scope {
                             }
                             Item { Layout.fillWidth: true }
                         }
+                    }
+                    BotaoRedondo {
+                        implicitWidth: Tema.px(36); implicitHeight: Tema.px(36)
+                        glifo: Estado.naoPerturbe ? "󰂛" : "󰂚"
+                        tamanhoGlifo: Tema.px(16)
+                        dica: "Notificações"
+                        contador: Estado.naoLidas
+                        onClicado: raiz.irPara("notif")
                     }
                     Rectangle {
                         implicitWidth: Tema.px(36); implicitHeight: Tema.px(36)
@@ -488,7 +503,7 @@ Scope {
                 Rectangle {
                     Layout.fillWidth: true
                     // decorativa: some com o menu de sessão aberto, senão passa da moldura
-                    visible: !raiz.sessaoAberta
+                    visible: !raiz.sessaoAberta && !midia.visible
                     implicitHeight: Tema.px(92)
                     radius: Tema.px(8)
                     color: "transparent"
@@ -502,6 +517,35 @@ Scope {
                         fillMode: Image.PreserveAspectCrop
                         smooth: true; mipmap: true
                     }
+                }
+            }
+
+            // sub-páginas (Wi-Fi, Bluetooth, notificações) no lugar do conteúdo
+            Item {
+                visible: raiz.pagina !== ""
+                anchors.fill: parent
+                anchors.topMargin: Tema.px(100)
+                anchors.leftMargin: Tema.px(26)
+                anchors.rightMargin: Tema.px(26)
+                anchors.bottomMargin: Tema.px(22)
+
+                PaginaWifi {
+                    anchors.fill: parent
+                    visible: raiz.pagina === "wifi"
+                    ativa: Estado.painelAberto && raiz.pagina === "wifi"
+                    onVoltar: raiz.pagina = ""
+                    onMudou: atrasoRede.restart()
+                }
+                PaginaBluetooth {
+                    anchors.fill: parent
+                    visible: raiz.pagina === "bt"
+                    ativa: Estado.painelAberto && raiz.pagina === "bt"
+                    onVoltar: raiz.pagina = ""
+                }
+                PaginaNotificacoes {
+                    anchors.fill: parent
+                    visible: raiz.pagina === "notif"
+                    onVoltar: raiz.pagina = ""
                 }
             }
 
