@@ -46,8 +46,19 @@ hl.config({
             color_inactive = rgba(M.cor.sombra, "1a"),
         },
 
-        -- janelas são opacas (creme); blur só gasta bateria
-        blur = { enabled = false },
+        -- blur só age em superfícies translúcidas (o Ghostty a 90%):
+        -- forte o bastante para as gravuras virarem textura, não ruído
+        blur = {
+            enabled           = true,
+            size              = 11,
+            passes            = 3,
+            noise             = 0.012,
+            contrast          = 0.9,
+            brightness        = 1.0,
+            vibrancy          = 0.12,
+            new_optimizations = true,
+            xray              = false,
+        },
     },
 
     group = {

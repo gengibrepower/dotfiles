@@ -277,8 +277,9 @@ hl.device({
 local mainMod = "SUPER"
 
 -- Apps
+hl.bind(mainMod .. " + Return",       hl.dsp.exec_cmd("~/.config/hypr/scripts/tmux-terminal.sh"))
+hl.bind(mainMod .. " + ALT + Return", hl.dsp.exec_cmd(terminal))   -- Ghostty sem tmux
 hl.bind(mainMod .. " + Q",            hl.dsp.exec_cmd(terminal))
-hl.bind(mainMod .. " + Return",       hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + E",            hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + D",            hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + space",        hl.dsp.exec_cmd(menu))
