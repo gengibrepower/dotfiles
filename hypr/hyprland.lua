@@ -70,6 +70,7 @@ end)
 
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
+hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")   -- paleta Mucha em apps Qt (qt6ct/colors/mucha.conf)
 
 
 -----------------------
