@@ -280,8 +280,8 @@ hl.device({
 local mainMod = "SUPER"
 
 -- Apps
-hl.bind(mainMod .. " + Return",       hl.dsp.exec_cmd("~/.config/hypr/scripts/tmux-terminal.sh"))
-hl.bind(mainMod .. " + ALT + Return", hl.dsp.exec_cmd(terminal))   -- Ghostty sem tmux
+hl.bind(mainMod .. " + Return",       hl.dsp.exec_cmd(terminal))   -- Ghostty puro
+hl.bind(mainMod .. " + ALT + Return", hl.dsp.exec_cmd("~/.config/hypr/scripts/tmux-terminal.sh"))   -- Ghostty no tmux
 hl.bind(mainMod .. " + Q",            hl.dsp.exec_cmd(terminal))
 -- Ferramentas de terminal em janela flutuante (classe rice.mucha.tui)
 local function tui(cmd) return 'ghostty --class=rice.mucha.tui -e ' .. cmd end
