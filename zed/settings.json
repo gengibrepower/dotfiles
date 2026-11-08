@@ -27,6 +27,9 @@
   "tab_size": 2,
   "format_on_save": "off",
   "scrollbar": { "show": "never" },
+  // árvore na esquerda, como o neo-tree do LazyVim
+  "project_panel": { "dock": "left" },
+  "git_panel": { "dock": "left" },
   "tab_bar": { "show": false },
   "toolbar": { "breadcrumbs": true, "quick_actions": false },
   "inlay_hints": { "enabled": true },
