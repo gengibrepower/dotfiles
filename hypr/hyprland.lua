@@ -304,10 +304,10 @@ hl.bind(mainMod .. " + ssharp",       hl.dsp.exec_cmd("qs ipc call atalhos toggl
 hl.bind(mainMod .. " + CTRL + L",     hl.dsp.exec_cmd("loginctl lock-session"), { desc = "Sistema|Bloquear a tela" })
 hl.bind(mainMod .. " + SHIFT + M",    hl.dsp.exec_cmd("command -v hyprshutdown >/dev/null 2>&1 && hyprshutdown || hyprctl dispatch 'hl.dsp.exit()'"), { desc = "Sistema|Sair do Hyprland" })
 
--- Screenshots (salva em ~/Pictures/Screenshots e copia)
-hl.bind("Print",                      hl.dsp.exec_cmd("~/.config/hypr/scripts/print.sh tela"), { desc = "Captura|Tela inteira" })
-hl.bind("SHIFT + Print",              hl.dsp.exec_cmd("~/.config/hypr/scripts/print.sh area"), { desc = "Captura|Área selecionada" })
-hl.bind(mainMod .. " + SHIFT + S",    hl.dsp.exec_cmd("~/.config/hypr/scripts/print.sh area"), { desc = "Captura|Área selecionada" })
+-- Captura: Print abre o menu (quickshell/captura); fotos em ~/Pictures/Screenshots, vídeos em ~/Videos/Gravações
+hl.bind("Print",                      hl.dsp.exec_cmd("~/.config/hypr/scripts/captura.sh gravando && ~/.config/hypr/scripts/captura.sh parar || qs ipc call captura abrir"), { desc = "Captura|Menu (área, janela, tela, gravar) · para a gravação" })
+hl.bind("SHIFT + Print",              hl.dsp.exec_cmd("~/.config/hypr/scripts/captura.sh area"), { desc = "Captura|Área direto" })
+hl.bind(mainMod .. " + SHIFT + S",    hl.dsp.exec_cmd("~/.config/hypr/scripts/captura.sh area"), { desc = "Captura|Área direto" })
 
 -- Janelas
 hl.bind(mainMod .. " + W",            hl.dsp.window.close(), { desc = "Janelas|Fechar" })
@@ -425,5 +425,13 @@ hl.window_rule({
     match = { class = "^rice\\.mucha\\.tui$" },
     float  = true,
     size   = "monitor_w*0.9 monitor_h*0.9",
+    center = true,
+})
+
+hl.window_rule({
+    name  = "anotacao-satty",
+    match = { class = "^com\\.gabm\\.satty$" },
+    float  = true,
+    size   = "monitor_w*0.94 monitor_h*0.94",
     center = true,
 })

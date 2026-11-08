@@ -1,0 +1,17 @@
+# satty — editor de anotação do rice Mucha (abre pelo menu de captura com "Anotar")
+[general]
+early-exit = true
+initial-tool = "arrow"
+copy-command = "wl-copy"
+annotation-size-factor = 1.4
+actions-on-enter = ["save-to-clipboard", "save-to-file"]
+corner-roundness = 0
+no-window-decoration = true
+
+[font]
+family = "Alegreya Sans"
+style = "Bold"
+
+# paleta: cobre, cobre escuro, sálvia escura, ouro, ardósia, tinta
+[color-palette]
+palette = ["#B0683A", "#8A4B26", "#4F5E45", "#B8955A", "#3E5A6A", "#3A3328"]
