@@ -1,10 +1,20 @@
-local omarchy_theme = vim.fn.expand("~/.local/state/omarchy/current/theme/neovim.lua")
-
-if vim.uv.fs_stat(omarchy_theme) then
-  return dofile(omarchy_theme)
-end
-
+-- Rice "Mucha": terminal creme (#F7F1E3). Gruvbox claro casa com os tons
+-- de pergaminho e marrom; o fundo transparente deixa o creme do Ghostty.
 return {
-  { "ellisonleao/gruvbox.nvim" },
-  { "LazyVim/LazyVim", opts = { colorscheme = "gruvbox" } },
+  {
+    "ellisonleao/gruvbox.nvim",
+    opts = {
+      contrast = "soft",
+      transparent_mode = true,
+    },
+  },
+  {
+    "LazyVim/LazyVim",
+    opts = {
+      colorscheme = function()
+        vim.o.background = "light"
+        vim.cmd.colorscheme("gruvbox")
+      end,
+    },
+  },
 }
