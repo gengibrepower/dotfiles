@@ -43,3 +43,6 @@ palette = 15=#EFE6D2
 
 # Super+V do Hyprland manda Shift+Insert: colar do clipboard, não da seleção
 keybind = shift+insert=paste_from_clipboard
+
+# padding acompanha a cor das células da borda (nvim escuro sem moldura creme)
+window-padding-color = extend-always

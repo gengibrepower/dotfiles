@@ -1,3 +1,9 @@
+-- Rice Mucha: o editor usa tema escuro com fundo sólido sobre o terminal claro
+-- translúcido; só deixa o fundo transparente quando o tema for claro.
+if vim.o.background == "dark" then
+	return
+end
+
 -- Make highlight groups transparent while preserving their other attributes
 local function make_transparent(name)
 	local ok, hl = pcall(vim.api.nvim_get_hl, 0, { name = name, link = false })
