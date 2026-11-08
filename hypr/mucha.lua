@@ -47,10 +47,11 @@ hl.config({
             color_inactive = rgba(M.cor.sombra, "1a"),
         },
 
-        -- blur só age em superfícies translúcidas (o Ghostty a 90%):
-        -- forte o bastante para as gravuras virarem textura, não ruído
+        -- blur desligado: o usuário prefere ver o wallpaper nítido atrás do
+        -- Ghostty translúcido (a 80%). Para religar: enabled = true aqui e
+        -- background-blur = true no Ghostty.
         blur = {
-            enabled           = true,
+            enabled           = false,
             size              = 5,
             passes            = 2,
             noise             = 0.012,

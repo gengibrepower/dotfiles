@@ -11,10 +11,10 @@ window-decoration = none
 gtk-titlebar = false
 confirm-close-surface = false
 
-# translucidez + blur do Hyprland (decoration.blur em hypr/mucha.lua)
+# translucidez (sem blur)
 background-opacity = 0.80
-# sem isto o Ghostty pede ao compositor para não desfocar
-background-blur = true
+# sem blur: o wallpaper aparece nítido atrás do texto
+background-blur = false
 
 background = #F7F1E3
 foreground = #3A3328
