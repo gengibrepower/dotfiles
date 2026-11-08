@@ -35,3 +35,6 @@ palette = 12=#6A8290
 palette = 13=#9A6A7A
 palette = 14=#6A8A80
 palette = 15=#EFE6D2
+
+# Super+V do Hyprland manda Shift+Insert: colar do clipboard, não da seleção
+keybind = shift+insert=paste_from_clipboard

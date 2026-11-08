@@ -280,7 +280,7 @@ local mainMod = "SUPER"
 hl.bind(mainMod .. " + Q",            hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + Return",       hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + E",            hl.dsp.exec_cmd(fileManager))
-hl.bind(mainMod .. " + R",            hl.dsp.exec_cmd(menu))
+hl.bind(mainMod .. " + D",            hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + space",        hl.dsp.exec_cmd(menu))
 
 -- Sessão
@@ -293,9 +293,14 @@ hl.bind("SHIFT + Print",              hl.dsp.exec_cmd("~/.config/hypr/scripts/pr
 hl.bind(mainMod .. " + SHIFT + S",    hl.dsp.exec_cmd("~/.config/hypr/scripts/print.sh area"))
 
 -- Janelas
-hl.bind(mainMod .. " + C",            hl.dsp.window.close())
+hl.bind(mainMod .. " + W",            hl.dsp.window.close())
 hl.bind(mainMod .. " + F",            hl.dsp.window.fullscreen())
-hl.bind(mainMod .. " + V",            hl.dsp.window.float({ action = "toggle" }))
+hl.bind(mainMod .. " + SHIFT + V",    hl.dsp.window.float({ action = "toggle" }))
+
+-- Clipboard universal: Ctrl+Insert / Shift+Insert funcionam no terminal e nos apps
+hl.bind(mainMod .. " + C",            hl.dsp.send_shortcut({ mods = "CTRL",  key = "Insert" }))
+hl.bind(mainMod .. " + V",            hl.dsp.send_shortcut({ mods = "SHIFT", key = "Insert" }))
+hl.bind(mainMod .. " + X",            hl.dsp.send_shortcut({ mods = "CTRL",  key = "X" }))
 hl.bind(mainMod .. " + P",            hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + T",            hl.dsp.layout("togglesplit"))    -- dwindle
 
