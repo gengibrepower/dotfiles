@@ -2,10 +2,10 @@
 # Paleta: ~/Projects/dotfiles/hypr/mucha.lua
 
 font-family = Maple Mono NF
-font-size = 11.5
+font-size = 14
 
-window-padding-x = 14
-window-padding-y = 12
+window-padding-x = 6
+window-padding-y = 4
 window-padding-balance = true
 window-decoration = none
 gtk-titlebar = false

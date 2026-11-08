@@ -21,9 +21,9 @@ M.rgba = rgba
 
 hl.config({
     general = {
-        gaps_in     = 3,
-        -- topo um pouco maior: é onde fica o puxador do painel
-        gaps_out    = { top = 14, right = 6, bottom = 6, left = 6 },
+        -- tela pequena (14"): gaps mínimos; o puxador do painel é um filete de 4 px
+        gaps_in     = 2,
+        gaps_out    = 4,
         border_size = 2,
         col = {
             active_border   = rgba(M.cor.cobre),

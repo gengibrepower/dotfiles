@@ -126,18 +126,18 @@ Scope {
     PanelWindow {
         anchors.top: true
         exclusiveZone: 0
-        // cabe no gap superior (14 px)
-        implicitWidth: 34
-        implicitHeight: 14
+        // filete que cabe no gap superior (4 px)
+        implicitWidth: 48
+        implicitHeight: 4
         color: "transparent"
         WlrLayershell.layer: WlrLayer.Top
         WlrLayershell.namespace: "mucha-puxador"
 
-        Image {
+        Rectangle {
             anchors.fill: parent
-            source: "file://" + raiz.home + "/.config/rice/assets/puxador.png"
-            smooth: true; mipmap: true
-            opacity: puxArea.containsMouse ? 1 : 0.85
+            radius: 2
+            color: puxArea.containsMouse ? Tema.cobreEscuro : Tema.cobre
+            opacity: puxArea.containsMouse ? 1 : 0.8
         }
         MouseArea {
             id: puxArea
