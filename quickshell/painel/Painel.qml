@@ -42,6 +42,7 @@ Scope {
     }
 
     // ---- dados ----
+    ClaudeUso { id: claudeUso }
     PwObjectTracker { objects: [Pipewire.defaultAudioSink] }
     readonly property var saida: Pipewire.defaultAudioSink?.audio ?? null
 
@@ -302,6 +303,7 @@ Scope {
                         valor: raiz.brilho
                         onMover: v => raiz.definirBrilho(v)
                     }
+                    MedidorClaude { Layout.fillWidth: true; uso: claudeUso }
                 }
 
                 Midia { id: midia; Layout.fillWidth: true }

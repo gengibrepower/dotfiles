@@ -138,6 +138,19 @@ linha='[ -f ~/Projects/dotfiles/shell/rice.sh ] && . ~/Projects/dotfiles/shell/r
 if grep -qF "shell/rice.sh" "$HOME/.bashrc" 2>/dev/null; then ok "~/.bashrc carrega shell/rice.sh"
 else fazer sh -c "printf '\n# rice Mucha\n%s\n' '$linha' >> '$HOME/.bashrc'"; fi
 
+# Claude Code: statusline com o medidor da sessão (alimenta o painel)
+cfg="$HOME/.claude/settings.json"
+if grep -qs 'claude/statusline.py' "$cfg"; then ok "statusline do Claude Code"
+else
+    fazer python3 -I -c '
+import json, os, sys
+p, cmd = sys.argv[1], sys.argv[2]
+s = json.load(open(p)) if os.path.exists(p) else {}
+s["statusLine"] = {"type": "command", "command": cmd, "padding": 0}
+os.makedirs(os.path.dirname(p), exist_ok=True)
+open(p, "w").write(json.dumps(s, indent=2, ensure_ascii=False) + "\n")' "$cfg" "$DOTS/claude/statusline.py"
+fi
+
 padrao() {   # app.desktop tipo...
     local app="$1"; shift
     for t in "$@"; do
