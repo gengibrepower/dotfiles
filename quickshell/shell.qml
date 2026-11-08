@@ -2,8 +2,10 @@
 import QtQuick
 import Quickshell
 import "notificacoes"
+import "launcher"
 
-// Rice Art Nouveau "Mucha" — notificações (launcher e painel vêm depois)
+// Rice Art Nouveau "Mucha" — notificações e launcher (painel vem depois)
 ShellRoot {
     Notificacoes {}
+    Launcher {}
 }

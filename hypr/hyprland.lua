@@ -37,7 +37,7 @@ hl.monitor({
 -- Set programs that you use
 local terminal    = "ghostty"
 local fileManager = "ghostty -e yazi"
-local menu        = "fuzzel"
+local menu        = "qs ipc call launcher toggle"
 
 
 -------------------
@@ -281,7 +281,7 @@ hl.bind(mainMod .. " + Q",            hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + Return",       hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + E",            hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + R",            hl.dsp.exec_cmd(menu))
-hl.bind(mainMod .. " + space",        hl.dsp.exec_cmd(menu))   -- vira o launcher do Quickshell
+hl.bind(mainMod .. " + space",        hl.dsp.exec_cmd(menu))
 
 -- Sessão
 hl.bind(mainMod .. " + CTRL + L",     hl.dsp.exec_cmd("loginctl lock-session"))
