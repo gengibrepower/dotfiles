@@ -327,6 +327,11 @@ hl.bind(mainMod .. " + T",            hl.dsp.layout("togglesplit"), { desc = "Ja
 -- tampa: com monitor externo desliga a tela interna (sem externo o logind suspende)
 hl.bind("switch:on:Lid Switch",  hl.dsp.exec_cmd("~/.config/hypr/scripts/tampa.sh fechou"), { locked = true, desc = "Oculto|tampa fechou" })
 hl.bind("switch:off:Lid Switch", hl.dsp.exec_cmd("~/.config/hypr/scripts/tampa.sh abriu"),  { locked = true, desc = "Oculto|tampa abriu" })
+-- projetor/monitor externo: estender -> espelhar -> só externo (hypr/scripts/projetor.sh)
+hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd("~/.config/hypr/scripts/projetor.sh"), { desc = "Sistema|Projetor: estender → espelhar → só externo" })
+hl.bind("XF86Display",             hl.dsp.exec_cmd("~/.config/hypr/scripts/projetor.sh"), { desc = "Oculto|tecla de projetor" })
+-- puxou o cabo no modo "só externo": religa a tela do notebook
+hl.on("monitor.removed", function () hl.exec_cmd("~/.config/hypr/scripts/projetor.sh desconectou") end)
 -- Alt+Tab com prévia (quickshell/alternar); soltar o Alt escolhe
 hl.bind("ALT + Tab",         hl.dsp.exec_cmd("qs ipc call alternar proxima"),  { desc = "Janelas|Alternar janelas (solte o Alt)" })
 hl.bind("ALT + SHIFT + Tab", hl.dsp.exec_cmd("qs ipc call alternar anterior"), { desc = "Janelas|Alternar janelas (solte o Alt)" })
