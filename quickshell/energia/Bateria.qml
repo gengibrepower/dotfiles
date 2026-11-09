@@ -12,9 +12,18 @@ Scope {
     readonly property var dispositivo: UPower.displayDevice
     readonly property real pct: dispositivo ? dispositivo.percentage * 100 : 100
     property int ultimoAviso: 101          // menor nível já avisado nesta descarga
+    property bool pronto: false            // só confia no UPower depois que ele responde
+
+    // leitura confiável: UPower carregado, bateria presente, descarregando de fato
+    // (no início o displayDevice vem com percentage 0 e dispararia "suspendendo")
+    function descarregando() {
+        return pronto && UPower.onBattery && dispositivo && dispositivo.ready
+            && dispositivo.isPresent && dispositivo.state === UPowerDeviceState.Discharging
+    }
 
     function checar(p) {
         if (!UPower.onBattery) { ultimoAviso = 101; return }
+        if (!descarregando() || p <= 0) return
         if (p <= 5 && ultimoAviso > 5) {
             ultimoAviso = 5
             avisar("critical", "Bateria em " + Math.round(p) + "%", "Suspendendo para não perder o trabalho.")
@@ -36,8 +45,12 @@ Scope {
     Timer {
         id: suspender
         interval: 20000
-        onTriggered: if (UPower.onBattery) Quickshell.execDetached(["systemctl", "suspend"])
+        onTriggered: if (raiz.descarregando() && raiz.pct > 0 && raiz.pct <= 5)
+                         Quickshell.execDetached(["systemctl", "suspend"])
     }
+
+    // espera o UPower responder antes da primeira checagem
+    Timer { interval: 3000; running: true; onTriggered: { raiz.pronto = true; raiz.checar(raiz.pct) } }
 
     onPctChanged: checar(pct)
     Connections {
