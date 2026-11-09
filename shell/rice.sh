@@ -12,15 +12,3 @@ command -v fzf >/dev/null && eval "$(fzf --bash)"
 # zoxide substitui o cd (cd foo pula para o diretório mais usado que casa com "foo"; cdi = interativo com fzf)
 command -v zoxide >/dev/null && eval "$(zoxide init bash --cmd cd)"
 
-# Claude Code com menos zoom: o terminal usa fonte 14 (100 colunas de código),
-# mas o Claude abre numa janela própria com fonte 11.5, na mesma pasta.
-# `command claude` roda no terminal atual, sem janela nova.
-claude() {
-    if [ -n "$WAYLAND_DISPLAY" ] && [ -z "$RICE_CLAUDE_JANELA" ] && command -v ghostty >/dev/null; then
-        RICE_CLAUDE_JANELA=1 setsid ghostty --font-size=11.5 --working-directory="$PWD" \
-            -e "$(command -v claude)" "$@" >/dev/null 2>&1 &
-        disown 2>/dev/null
-    else
-        command claude "$@"
-    fi
-}
