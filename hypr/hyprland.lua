@@ -36,7 +36,7 @@ hl.monitor({
 
 -- Set programs that you use
 local terminal    = "ghostty"
-local fileManager = "ghostty -e yazi"
+local fileManager = "thunar"
 local menu        = "qs ipc call launcher toggle"
 
 
@@ -289,7 +289,8 @@ hl.bind(mainMod .. " + Q",            hl.dsp.exec_cmd(terminal), { desc = "Apps|
 -- fonte 12 aqui: o terminal usa 14 (código), mas btop pede no mínimo 80x24;
 -- opaco porque flutua sobre outras janelas (texto de trás vazava)
 local function tui(cmd) return 'ghostty --class=rice.mucha.tui --font-size=12 --background-opacity=1 -e ' .. cmd end
-hl.bind(mainMod .. " + E",              hl.dsp.exec_cmd(tui("yazi")), { desc = "Apps|Arquivos (yazi)" })
+hl.bind(mainMod .. " + E",              hl.dsp.exec_cmd(fileManager), { desc = "Apps|Arquivos (Thunar)" })
+hl.bind(mainMod .. " + SHIFT + E",      hl.dsp.exec_cmd(tui("yazi")), { desc = "Apps|Arquivos no terminal (yazi)" })
 hl.bind(mainMod .. " + G",              hl.dsp.exec_cmd("cd ~/Projects && " .. tui("lazygit")), { desc = "Apps|Git (lazygit)" })
 hl.bind(mainMod .. " + SHIFT + D",      hl.dsp.exec_cmd(tui("lazydocker")), { desc = "Apps|Docker (lazydocker)" })
 hl.bind(mainMod .. " + SHIFT + Escape", hl.dsp.exec_cmd(tui("btop")), { desc = "Apps|Monitor do sistema (btop)" })
@@ -442,6 +443,14 @@ hl.window_rule({
     match = { class = "^rice\\.mucha\\.tui$" },
     float  = true,
     size   = "monitor_w*0.9 monitor_h*0.9",
+    center = true,
+})
+
+-- Thunar: janelas de progresso/confirmação de cópia flutuam em vez de dividir a tela
+hl.window_rule({
+    name  = "thunar-dialogos",
+    match = { class = "^[Tt]hunar$", title = "^(Progresso|Operações de arquivo|File Operation Progress|Confirm|Confirmar).*" },
+    float  = true,
     center = true,
 })
 

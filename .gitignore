@@ -5,3 +5,5 @@ yazi/theme.toml
 btop/themes/mucha.theme
 gtk/gtk-3.0/gtk.css
 gtk/gtk-4.0/gtk.css
+# atalhos que o Thunar regrava sozinho
+thunar/accels.scm

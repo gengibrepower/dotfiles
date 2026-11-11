@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+<action>
+	<icon>utilities-terminal</icon>
+	<name>Abrir terminal aqui</name>
+	<submenu></submenu>
+	<unique-id>mucha-terminal</unique-id>
+	<command>ghostty --working-directory=%f</command>
+	<description>Ghostty nesta pasta</description>
+	<range></range>
+	<patterns>*</patterns>
+	<startup-notify/>
+	<directories/>
+</action>
+<action>
+	<icon>system-file-manager</icon>
+	<name>Abrir no yazi</name>
+	<submenu></submenu>
+	<unique-id>mucha-yazi</unique-id>
+	<command>ghostty --class=rice.mucha.tui --font-size=12 --background-opacity=1 -e yazi %f</command>
+	<description>yazi nesta pasta ou neste arquivo</description>
+	<range></range>
+	<patterns>*</patterns>
+	<directories/>
+	<audio-files/>
+	<image-files/>
+	<other-files/>
+	<text-files/>
+	<video-files/>
+</action>
+</actions>

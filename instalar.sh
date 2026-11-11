@@ -45,6 +45,8 @@ REPO=(
     quickshell qt6-svg qt6ct adw-gtk-theme
     # terminal e ferramentas
     ghostty tmux neovim zed yazi lazygit lazydocker btop fzf zoxide fd ripgrep
+    # Thunar para arrastar e soltar (lixeira e montagens via gvfs, miniaturas via tumbler)
+    thunar thunar-archive-plugin file-roller gvfs tumbler ffmpegthumbnailer
     # captura, clipboard, mídia
     grim slurp satty wf-recorder wl-clipboard cliphist playerctl mpv mpv-mpris imv
     zathura zathura-pdf-mupdf firefox
@@ -116,6 +118,7 @@ linkar gtk/gtk-3.0 "$HOME/.config/gtk-3.0"
 linkar gtk/gtk-4.0 "$HOME/.config/gtk-4.0"
 linkar nvim/.config/nvim "$HOME/.config/nvim"
 linkar tmux/tmux.conf "$HOME/.config/tmux/tmux.conf"
+linkar thunar "$HOME/.config/Thunar"
 
 # versões ativas do tema (lazygit, yazi, btop, GTK, tmux): links criados pelo tema.sh;
 # o Quickshell troca para o escuro sozinho à noite
@@ -161,7 +164,22 @@ if command -v xdg-mime >/dev/null; then
     padrao org.pwmt.zathura.desktop application/pdf application/epub+zip
     padrao imv.desktop image/png image/jpeg image/gif image/webp image/bmp image/tiff image/svg+xml image/avif image/heic
     padrao mpv.desktop video/mp4 video/x-matroska video/webm video/quicktime video/x-msvideo audio/mpeg audio/ogg audio/flac
-    ok "zathura (PDF), imv (imagens), mpv (vídeo/áudio)"
+    padrao thunar.desktop inode/directory
+    ok "zathura (PDF), imv (imagens), mpv (vídeo/áudio), Thunar (pastas)"
+fi
+
+# Thunar: preferências ficam no xfconf (o xfconfd reescreve o XML, por isso não é link)
+if command -v xfconf-query >/dev/null; then
+    xf() { [ "$(xfconf-query -c thunar -p "$1" 2>/dev/null)" = "$3" ] || fazer xfconf-query -c thunar -p "$1" -n -t "$2" -s "$3"; }
+    xf /last-view string ThunarDetailsView
+    xf /last-side-pane string ThunarShortcutsPane
+    xf /misc-thumbnail-mode string THUNAR_THUMBNAIL_MODE_ALWAYS
+    xf /misc-date-style string THUNAR_DATE_STYLE_YYYYMMDD
+    xf /misc-folders-first bool true
+    xf /misc-middle-click-in-tab bool true
+    xf /misc-show-delete-action bool true
+    xf /misc-confirm-close-multiple-tabs bool false
+    ok "Thunar: lista detalhada, miniaturas, datas ISO"
 fi
 
 if command -v gsettings >/dev/null; then
