@@ -228,6 +228,14 @@ hl.config({
     },
 })
 
+-- Apps X11 (XWayland) em escala 1 nítida em vez de esticados e borrados pela
+-- escala 1.5. Hoje só o Astah usa XWayland; Java não aceita escala 1.5.
+hl.config({
+    xwayland = {
+        force_zero_scaling = true,
+    },
+})
+
 
 ----------------
 ---- LAYERS ----
