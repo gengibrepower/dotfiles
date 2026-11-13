@@ -56,7 +56,7 @@ hl.on("hyprland.start", function ()
     hl.exec_cmd("qs")   -- quickshell: notificações (e depois launcher/painel)
     hl.exec_cmd("wl-paste --type text --watch cliphist store")
     hl.exec_cmd("wl-paste --type image --watch cliphist store")
-    hl.exec_cmd("hyprsunset")                        -- luz noturna (hypr/hyprsunset.conf)
+    -- hl.exec_cmd("hyprsunset")   -- luz noturna desligada (tela amarelada incomodava)
     hl.exec_cmd("udiskie --no-tray --notify --automount")   -- pendrive/HD montam sozinhos
 --   hl.exec_cmd(terminal)
 --   hl.exec_cmd("nm-applet")
