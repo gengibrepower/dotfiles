@@ -73,6 +73,7 @@ end)
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
 hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")   -- paleta Mucha em apps Qt (qt6ct/colors/mucha.conf)
+hl.env("_JAVA_AWT_WM_NONREPARENTING", "1")   -- apps Java (Astah etc.) não abrem em branco no Hyprland
 
 
 -----------------------
