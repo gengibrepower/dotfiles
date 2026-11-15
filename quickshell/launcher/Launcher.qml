@@ -49,6 +49,7 @@ Scope {
     function atualizar() {
         if (modo === "apps") {
             const apps = Busca.buscarApps(DesktopEntries.applications.values, consulta, usosArquivo.usos)
+                .concat(Busca.buscarSistema(consulta)).sort((a, b) => b.p - a.p)
             const conta = Busca.pareceConta(consulta) ? Busca.itemConta(consulta) : null
             resultados = conta ? [conta].concat(apps) : apps
             selecionado = 0
@@ -78,6 +79,8 @@ Scope {
             else e.execute()
         } else if (item.tipo === "clip") {
             Quickshell.execDetached(["sh", "-c", 'printf "%s" "$1" | cliphist decode | wl-copy', "sh", item.linha])
+        } else if (item.tipo === "sistema") {
+            Quickshell.execDetached(item.cmd)
         } else if (item.tipo === "conta") {
             Quickshell.execDetached(["wl-copy", "--", item.valor])
         } else if (item.tipo === "emoji") {
