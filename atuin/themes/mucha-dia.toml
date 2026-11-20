@@ -1,0 +1,12 @@
+[theme]
+name = "mucha-dia"
+
+[colors]
+Base = "#3A3328"
+Title = "#B0683A"
+Important = "#8A4B26"
+Annotation = "#6E6553"
+Guidance = "#4F5E45"
+AlertInfo = "#4F5E45"
+AlertWarn = "#B8955A"
+AlertError = "#8A4B26"

@@ -118,7 +118,7 @@ linkar() {
     if [ -e "$dst" ] || [ -L "$dst" ]; then fazer mv "$dst" "$dst.bak-$DATA"; fi
     fazer ln -s "$src" "$dst"
 }
-for d in hypr ghostty quickshell rice btop yazi lazygit lazydocker mpv imv zathura satty qt6ct zed; do
+for d in hypr ghostty quickshell rice btop yazi lazygit lazydocker mpv imv zathura satty qt6ct zed atuin; do
     linkar "$d" "$HOME/.config/$d"
 done
 linkar gtk/gtk-3.0 "$HOME/.config/gtk-3.0"
