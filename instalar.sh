@@ -211,8 +211,15 @@ if [ "$SISTEMA" = 1 ]; then
         fi
     }
     for u in NetworkManager.service bluetooth.service power-profiles-daemon.service ufw.service \
-             paccache.timer snapper-cleanup.timer snapper-timeline.timer; do ativar "$u"; done
+             docker.service paccache.timer snapper-cleanup.timer snapper-timeline.timer; do ativar "$u"; done
     for u in pipewire.socket pipewire-pulse.socket wireplumber.service hyprpolkitagent.service; do ativar "$u" --user; done
+
+    # docker sem sudo; o grupo só vale depois de sair e entrar de novo na sessão
+    if id -nG "$USER" | grep -qw docker; then ok "$USER no grupo docker"
+    else
+        fazer sudo usermod -aG docker "$USER"
+        aviso "saia e entre de novo na sessão para o grupo docker valer"
+    fi
 
     # firewall: nega entrada, libera saída
     if grep -qs "^ENABLED=yes" /etc/ufw/ufw.conf; then ok "ufw ativo"
