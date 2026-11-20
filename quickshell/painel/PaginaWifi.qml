@@ -15,15 +15,17 @@ Subpagina {
     property string abertaSenha: ""       // SSID com o campo de senha aberto
     property string conectando: ""
     property string erro: ""
+    property bool verSalvas: false        // lista das redes salvas (para esquecer)
     signal mudou()                        // avisa o painel para reler o bloco "Rede"
 
     titulo: "Wi-Fi"
     subtitulo: !ligado ? "desligado"
+             : verSalvas ? salvas.length + " redes salvas"
              : conectando !== "" ? "conectando a " + conectando + "…"
              : erro !== "" ? erro
              : varredura.running ? "procurando redes…" : redes.length + " redes por perto"
 
-    onAtivaChanged: if (ativa) { abertaSenha = ""; erro = ""; reler(true) }
+    onAtivaChanged: if (ativa) { abertaSenha = ""; erro = ""; verSalvas = false; reler(true) }
 
     function reler(escanear) {
         estado.running = true
@@ -119,7 +121,8 @@ Subpagina {
 
     direita: Row {
         spacing: Tema.px(6)
-        BotaoRedondo { glifo: "󰑐"; dica: "Procurar de novo"; visible: raiz.ligado; onClicado: raiz.reler(true) }
+        BotaoRedondo { glifo: raiz.verSalvas ? "\uf00d" : "\uf03a"; dica: "Redes salvas"; onClicado: raiz.verSalvas = !raiz.verSalvas }
+        BotaoRedondo { glifo: "󰑐"; dica: "Procurar de novo"; visible: raiz.ligado && !raiz.verSalvas; onClicado: raiz.reler(true) }
         Interruptor { ligado: raiz.ligado; onAlternado: raiz.alternarRadio() }
     }
 
@@ -128,7 +131,7 @@ Subpagina {
         spacing: Tema.px(4)
 
         Repeater {
-            model: raiz.redes
+            model: raiz.verSalvas ? [] : raiz.redes
             delegate: Rectangle {
                 id: linha
                 required property var modelData
@@ -202,8 +205,49 @@ Subpagina {
             }
         }
 
+        Repeater {
+            model: raiz.verSalvas ? raiz.salvas : []
+            delegate: Rectangle {
+                id: salva
+                required property string modelData
+                width: parent.width; height: Tema.px(44)
+                radius: Tema.px(10)
+                color: ms.containsMouse ? Tema.pergaminho : "transparent"
+                MouseArea { id: ms; anchors.fill: parent; hoverEnabled: true }
+                RowLayout {
+                    x: Tema.px(12); width: parent.width - Tema.px(24); height: parent.height
+                    spacing: Tema.px(10)
+                    Text { text: "󰤨"; font.family: Tema.mono; font.pixelSize: Tema.px(16); color: Tema.salviaEscura }
+                    Text {
+                        Layout.fillWidth: true
+                        text: salva.modelData
+                        elide: Text.ElideRight
+                        font.family: Tema.ui; font.pixelSize: Tema.px(14); color: Tema.tinta
+                    }
+                    Text {
+                        text: "esquecer"
+                        font.family: Tema.ui; font.pixelSize: Tema.px(12); font.underline: esq.containsMouse
+                        color: Tema.cobreEscuro
+                        MouseArea {
+                            id: esq; anchors.fill: parent; anchors.margins: -Tema.px(6); hoverEnabled: true; cursorShape: Qt.PointingHandCursor
+                            onClicked: raiz.rodar(["nmcli", "connection", "delete", "id", salva.modelData], "")
+                        }
+                    }
+                }
+            }
+        }
+
         Text {
-            visible: raiz.redes.length === 0
+            visible: raiz.verSalvas && raiz.salvas.length === 0
+            width: parent.width
+            topPadding: Tema.px(30)
+            horizontalAlignment: Text.AlignHCenter
+            text: "Nenhuma rede salva"
+            font.family: Tema.ui; font.pixelSize: Tema.px(14); color: Tema.tintaSuave
+        }
+
+        Text {
+            visible: !raiz.verSalvas && raiz.redes.length === 0
             width: parent.width
             topPadding: Tema.px(30)
             horizontalAlignment: Text.AlignHCenter
