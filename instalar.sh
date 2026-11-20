@@ -44,7 +44,7 @@ REPO=(
     hyprland hyprlock hypridle hyprsunset hyprpolkitagent xdg-desktop-portal-hyprland
     quickshell qt6-svg qt6ct adw-gtk-theme
     # terminal e ferramentas
-    ghostty tmux neovim zed yazi lazygit lazydocker btop fzf zoxide fd ripgrep
+    ghostty tmux neovim yazi lazygit lazydocker btop fzf zoxide fd ripgrep
     # Thunar para arrastar e soltar (lixeira e montagens via gvfs, miniaturas via tumbler)
     thunar thunar-archive-plugin file-roller gvfs tumbler ffmpegthumbnailer
     # captura, clipboard, mídia
@@ -57,8 +57,13 @@ REPO=(
     snapper snap-pac pacman-contrib ufw sddm
     # fontes do sistema (as do rice vêm na etapa de fontes)
     noto-fonts noto-fonts-emoji
+    # desenvolvimento: versões por projeto (mise), receitas (just), histórico (atuin)
+    mise just atuin
+    docker docker-compose docker-buildx
+    git github-cli openssh git-delta difftastic git-absorb
+    gdb lldb wireshark-qt websocat hyperfine
 )
-AUR=()   # nada do AUR por enquanto; o paru fica para atualizar e para o futuro
+AUR=(lefthook rr)
 
 if [ "$PACOTES" = 1 ]; then
     etapa "Pacotes"
