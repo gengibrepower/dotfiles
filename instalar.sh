@@ -81,6 +81,8 @@ if [ "$PACOTES" = 1 ]; then
         rm -rf "$tmp"
     fi
     if [ ${#AUR[@]} -gt 0 ]; then fazer paru -S --needed --noconfirm "${AUR[@]}"; fi
+    # o link do config global só sai na etapa de links, então aponta o mise direto para o arquivo do repo
+    fazer env MISE_GLOBAL_CONFIG_FILE="$DOTS/mise/config.toml" mise install --yes
 fi
 
 # =====================================================================
@@ -124,6 +126,7 @@ linkar gtk/gtk-4.0 "$HOME/.config/gtk-4.0"
 linkar nvim/.config/nvim "$HOME/.config/nvim"
 linkar tmux/tmux.conf "$HOME/.config/tmux/tmux.conf"
 linkar thunar "$HOME/.config/Thunar"
+linkar mise/config.toml "$HOME/.config/mise/config.toml"
 
 # versões ativas do tema (lazygit, yazi, btop, GTK, tmux): links criados pelo tema.sh;
 # o Quickshell troca para o escuro sozinho à noite

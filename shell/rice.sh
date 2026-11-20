@@ -12,3 +12,5 @@ command -v fzf >/dev/null && eval "$(fzf --bash)"
 # zoxide substitui o cd (cd foo pula para o diretório mais usado que casa com "foo"; cdi = interativo com fzf)
 command -v zoxide >/dev/null && eval "$(zoxide init bash --cmd cd)"
 
+# mise põe no PATH as versões de node, go, java etc. do projeto atual (ou as globais)
+command -v mise >/dev/null && eval "$(mise activate bash)"
