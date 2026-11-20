@@ -127,6 +127,13 @@ linkar nvim/.config/nvim "$HOME/.config/nvim"
 linkar tmux/tmux.conf "$HOME/.config/tmux/tmux.conf"
 linkar thunar "$HOME/.config/Thunar"
 linkar mise/config.toml "$HOME/.config/mise/config.toml"
+linkar git/config "$HOME/.config/git/config"
+linkar git/allowed_signers "$HOME/.config/git/allowed_signers"
+# o ~/.gitconfig tem precedência sobre ~/.config/git/config; o conteúdo dele já está em git/config
+if [ -f "$HOME/.gitconfig" ]; then
+    fazer mv "$HOME/.gitconfig" "$HOME/.gitconfig.bak-$DATA"
+    aviso "~/.gitconfig virou ~/.gitconfig.bak-$DATA: confira se nada dele faltou em git/config"
+fi
 
 # versões ativas do tema (lazygit, yazi, btop, GTK, tmux): links criados pelo tema.sh;
 # o Quickshell troca para o escuro sozinho à noite
@@ -263,5 +270,6 @@ cat <<'EOF'
    - no primeiro nvim, o lazy.nvim baixa os plugins sozinho
    - saia da sessão e entre de novo pelo SDDM para o Hyprland carregar tudo
    - Super+ß mostra todos os atalhos
+   - cadastre ~/.ssh/id_ed25519.pub como Signing key no GitHub (Settings → SSH and GPG keys)
 EOF
 [ "$SIMULAR" = 0 ] || echo "  (simulação: nada foi alterado)"
