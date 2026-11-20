@@ -62,8 +62,12 @@ REPO=(
     docker docker-compose docker-buildx
     git github-cli openssh git-delta difftastic git-absorb
     gdb lldb wireshark-qt websocat hyperfine
+    # Neovim: language servers, formatadores e depuração vêm do pacman (sem Mason)
+    tree-sitter-cli typescript-language-server svelte-language-server tailwindcss-language-server
+    biome gopls delve rust-analyzer clang lua-language-server stylua pyright ruff marksman
+    yaml-language-server vscode-json-languageserver taplo-cli sqlfluff
 )
-AUR=(lefthook rr)
+AUR=(lefthook rr jdtls)
 
 if [ "$PACOTES" = 1 ]; then
     etapa "Pacotes"
