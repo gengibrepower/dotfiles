@@ -44,7 +44,9 @@ REPO=(
     hyprland hyprlock hypridle hyprsunset hyprpolkitagent xdg-desktop-portal-hyprland
     quickshell qt6-svg qt6ct adw-gtk-theme
     # terminal e ferramentas
-    ghostty tmux neovim zed yazi lazygit lazydocker btop fzf zoxide fd ripgrep
+    ghostty tmux neovim yazi lazygit lazydocker btop fzf zoxide fd ripgrep
+    # Thunar para arrastar e soltar (lixeira e montagens via gvfs, miniaturas via tumbler)
+    thunar thunar-archive-plugin file-roller gvfs tumbler ffmpegthumbnailer
     # captura, clipboard, mídia
     grim slurp satty wf-recorder wl-clipboard cliphist playerctl mpv mpv-mpris imv
     zathura zathura-pdf-mupdf firefox
@@ -55,8 +57,13 @@ REPO=(
     snapper snap-pac pacman-contrib ufw sddm
     # fontes do sistema (as do rice vêm na etapa de fontes)
     noto-fonts noto-fonts-emoji
+    # desenvolvimento: versões por projeto (mise), receitas (just), histórico (atuin)
+    mise just atuin
+    docker docker-compose docker-buildx
+    git github-cli openssh git-delta difftastic git-absorb
+    gdb lldb wireshark-qt websocat hyperfine
 )
-AUR=()   # nada do AUR por enquanto; o paru fica para atualizar e para o futuro
+AUR=(lefthook rr)
 
 if [ "$PACOTES" = 1 ]; then
     etapa "Pacotes"
@@ -74,6 +81,8 @@ if [ "$PACOTES" = 1 ]; then
         rm -rf "$tmp"
     fi
     if [ ${#AUR[@]} -gt 0 ]; then fazer paru -S --needed --noconfirm "${AUR[@]}"; fi
+    # o link do config global só sai na etapa de links, então aponta o mise direto para o arquivo do repo
+    fazer env MISE_GLOBAL_CONFIG_FILE="$DOTS/mise/config.toml" mise install --yes
 fi
 
 # =====================================================================
@@ -109,13 +118,22 @@ linkar() {
     if [ -e "$dst" ] || [ -L "$dst" ]; then fazer mv "$dst" "$dst.bak-$DATA"; fi
     fazer ln -s "$src" "$dst"
 }
-for d in hypr ghostty quickshell rice btop yazi lazygit lazydocker mpv imv zathura satty qt6ct zed; do
+for d in hypr ghostty quickshell rice btop yazi lazygit lazydocker mpv imv zathura satty qt6ct atuin; do
     linkar "$d" "$HOME/.config/$d"
 done
 linkar gtk/gtk-3.0 "$HOME/.config/gtk-3.0"
 linkar gtk/gtk-4.0 "$HOME/.config/gtk-4.0"
 linkar nvim/.config/nvim "$HOME/.config/nvim"
 linkar tmux/tmux.conf "$HOME/.config/tmux/tmux.conf"
+linkar thunar "$HOME/.config/Thunar"
+linkar mise/config.toml "$HOME/.config/mise/config.toml"
+linkar git/config "$HOME/.config/git/config"
+linkar git/allowed_signers "$HOME/.config/git/allowed_signers"
+# o ~/.gitconfig tem precedência sobre ~/.config/git/config; o conteúdo dele já está em git/config
+if [ -f "$HOME/.gitconfig" ]; then
+    fazer mv "$HOME/.gitconfig" "$HOME/.gitconfig.bak-$DATA"
+    aviso "~/.gitconfig virou ~/.gitconfig.bak-$DATA: confira se nada dele faltou em git/config"
+fi
 
 # versões ativas do tema (lazygit, yazi, btop, GTK, tmux): links criados pelo tema.sh;
 # o Quickshell troca para o escuro sozinho à noite
@@ -161,7 +179,22 @@ if command -v xdg-mime >/dev/null; then
     padrao org.pwmt.zathura.desktop application/pdf application/epub+zip
     padrao imv.desktop image/png image/jpeg image/gif image/webp image/bmp image/tiff image/svg+xml image/avif image/heic
     padrao mpv.desktop video/mp4 video/x-matroska video/webm video/quicktime video/x-msvideo audio/mpeg audio/ogg audio/flac
-    ok "zathura (PDF), imv (imagens), mpv (vídeo/áudio)"
+    padrao thunar.desktop inode/directory
+    ok "zathura (PDF), imv (imagens), mpv (vídeo/áudio), Thunar (pastas)"
+fi
+
+# Thunar: preferências ficam no xfconf (o xfconfd reescreve o XML, por isso não é link)
+if command -v xfconf-query >/dev/null; then
+    xf() { [ "$(xfconf-query -c thunar -p "$1" 2>/dev/null)" = "$3" ] || fazer xfconf-query -c thunar -p "$1" -n -t "$2" -s "$3"; }
+    xf /last-view string ThunarDetailsView
+    xf /last-side-pane string ThunarShortcutsPane
+    xf /misc-thumbnail-mode string THUNAR_THUMBNAIL_MODE_ALWAYS
+    xf /misc-date-style string THUNAR_DATE_STYLE_YYYYMMDD
+    xf /misc-folders-first bool true
+    xf /misc-middle-click-in-tab bool true
+    xf /misc-show-delete-action bool true
+    xf /misc-confirm-close-multiple-tabs bool false
+    ok "Thunar: lista detalhada, miniaturas, datas ISO"
 fi
 
 if command -v gsettings >/dev/null; then
@@ -185,8 +218,15 @@ if [ "$SISTEMA" = 1 ]; then
         fi
     }
     for u in NetworkManager.service bluetooth.service power-profiles-daemon.service ufw.service \
-             paccache.timer snapper-cleanup.timer snapper-timeline.timer; do ativar "$u"; done
+             docker.service paccache.timer snapper-cleanup.timer snapper-timeline.timer; do ativar "$u"; done
     for u in pipewire.socket pipewire-pulse.socket wireplumber.service hyprpolkitagent.service; do ativar "$u" --user; done
+
+    # docker sem sudo; o grupo só vale depois de sair e entrar de novo na sessão
+    if id -nG "$USER" | grep -qw docker; then ok "$USER no grupo docker"
+    else
+        fazer sudo usermod -aG docker "$USER"
+        aviso "saia e entre de novo na sessão para o grupo docker valer"
+    fi
 
     # firewall: nega entrada, libera saída
     if grep -qs "^ENABLED=yes" /etc/ufw/ufw.conf; then ok "ufw ativo"
@@ -230,5 +270,6 @@ cat <<'EOF'
    - no primeiro nvim, o lazy.nvim baixa os plugins sozinho
    - saia da sessão e entre de novo pelo SDDM para o Hyprland carregar tudo
    - Super+ß mostra todos os atalhos
+   - cadastre ~/.ssh/id_ed25519.pub como Signing key no GitHub (Settings → SSH and GPG keys)
 EOF
 [ "$SIMULAR" = 0 ] || echo "  (simulação: nada foi alterado)"

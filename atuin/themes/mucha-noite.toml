@@ -1,0 +1,12 @@
+[theme]
+name = "mucha-noite"
+
+[colors]
+Base = "#E6DAC2"
+Title = "#CC8550"
+Important = "#E0A070"
+Annotation = "#ADA087"
+Guidance = "#AFC29C"
+AlertInfo = "#AFC29C"
+AlertWarn = "#B39459"
+AlertError = "#E0A070"

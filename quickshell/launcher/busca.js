@@ -166,3 +166,23 @@ function buscarEmojis(linhas, consulta) {
     if (q !== "") res.sort((a, b) => b.p - a.p)
     return res.slice(0, 120)
 }
+
+// ---- ações do sistema (desligar etc.) no modo apps ----
+const acoesSistema = [
+    { nome: "Desligar",   chaves: "shutdown poweroff desligar", cmd: ["systemctl", "poweroff"] },
+    { nome: "Reiniciar",  chaves: "reboot restart reiniciar",   cmd: ["systemctl", "reboot"] },
+    { nome: "Suspender",  chaves: "suspend sleep suspender",    cmd: ["systemctl", "suspend"] },
+    { nome: "Bloquear",   chaves: "lock bloquear tela",         cmd: ["loginctl", "lock-session"] },
+]
+
+// só com 3+ letras e casamento forte, para um Enter distraído não desligar a máquina
+function buscarSistema(consulta) {
+    const q = consulta.trim().toLowerCase()
+    if (q.length < 3) return []
+    const res = []
+    for (const a of acoesSistema) {
+        const p = Math.max(pontuar(q, a.nome), pontuar(q, a.chaves))
+        if (p >= 60) res.push({ p: p, tipo: "sistema", cmd: a.cmd, nome: a.nome, detalhe: "sistema" })
+    }
+    return res
+}

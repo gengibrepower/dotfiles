@@ -11,6 +11,8 @@ Subpagina {
     property bool ativa: false
     readonly property var adaptador: Bluetooth.defaultAdapter
     readonly property bool ligado: adaptador?.enabled ?? false
+    property bool verSalvos: false        // lista dos pareados (para esquecer)
+    readonly property var salvos: Bluetooth.devices.values.filter(d => d.paired || d.bonded)
 
     readonly property var dispositivos: {
         const ds = Bluetooth.devices.values.slice()
@@ -20,18 +22,20 @@ Subpagina {
     }
 
     titulo: "Bluetooth"
-    subtitulo: !adaptador ? "sem adaptador" : !ligado ? "desligado"
+    subtitulo: verSalvos ? salvos.length + " dispositivos pareados"
+             : !adaptador ? "sem adaptador" : !ligado ? "desligado"
              : adaptador.discovering ? "procurando dispositivos…" : "ligado"
 
     // procura só enquanto a página está aberta
     function ajustarBusca() { if (adaptador && ligado) adaptador.discovering = ativa }
-    onAtivaChanged: ajustarBusca()
+    onAtivaChanged: { verSalvos = false; ajustarBusca() }
     onLigadoChanged: ajustarBusca()
 
-    direita: Interruptor {
+    direita: Row {
+        spacing: Tema.px(6)
         visible: raiz.adaptador !== null
-        ligado: raiz.ligado
-        onAlternado: raiz.adaptador.enabled = !raiz.adaptador.enabled
+        BotaoRedondo { glifo: raiz.verSalvos ? "\uf00d" : "\uf03a"; dica: "Dispositivos pareados"; onClicado: raiz.verSalvos = !raiz.verSalvos }
+        Interruptor { ligado: raiz.ligado; onAlternado: raiz.adaptador.enabled = !raiz.adaptador.enabled }
     }
 
     Column {
@@ -39,7 +43,7 @@ Subpagina {
         spacing: Tema.px(4)
 
         Repeater {
-            model: raiz.ligado ? raiz.dispositivos : []
+            model: raiz.verSalvos ? raiz.salvos : raiz.ligado ? raiz.dispositivos : []
             delegate: Rectangle {
                 id: linha
                 required property var modelData
@@ -110,7 +114,7 @@ Subpagina {
                     }
                     // esquecer (só pareados)
                     Text {
-                        visible: linha.conhecido && ma.containsMouse && !linha.d.connected
+                        visible: linha.conhecido && (raiz.verSalvos || ma.containsMouse && !linha.d.connected)
                         text: "esquecer"
                         font.family: Tema.ui; font.pixelSize: Tema.px(12); font.underline: esq.containsMouse
                         color: Tema.cobreEscuro
@@ -121,12 +125,12 @@ Subpagina {
         }
 
         Text {
-            visible: !raiz.ligado || raiz.dispositivos.length === 0
+            visible: raiz.verSalvos ? raiz.salvos.length === 0 : !raiz.ligado || raiz.dispositivos.length === 0
             width: parent.width
             topPadding: Tema.px(30)
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.WordWrap
-            text: !raiz.adaptador ? "Nenhum adaptador Bluetooth" : !raiz.ligado ? "Bluetooth desligado"
+            text: raiz.verSalvos ? "Nenhum dispositivo pareado" : !raiz.adaptador ? "Nenhum adaptador Bluetooth" : !raiz.ligado ? "Bluetooth desligado"
                 : "Nenhum dispositivo ainda — deixe o fone/mouse em modo de pareamento"
             font.family: Tema.ui; font.pixelSize: Tema.px(14); color: Tema.tintaSuave
         }

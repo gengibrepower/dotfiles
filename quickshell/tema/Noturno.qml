@@ -3,7 +3,7 @@ import Quickshell
 import Quickshell.Io
 import "../comum"
 
-// Tema claro/escuro. Modo "auto" segue o horário do hyprsunset (escuro das
+// Tema claro/escuro. Modo "auto" segue o horário (escuro das
 // 19:30 às 7:00); "claro"/"escuro" fixam. Guarda o modo entre sessões e
 // chama hypr/scripts/tema.sh para trocar o resto (Ghostty, GTK, tmux…).
 //   qs ipc call tema alternar | definir auto|claro|escuro | estado

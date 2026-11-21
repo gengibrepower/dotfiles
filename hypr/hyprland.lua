@@ -36,7 +36,7 @@ hl.monitor({
 
 -- Set programs that you use
 local terminal    = "ghostty"
-local fileManager = "ghostty -e yazi"
+local fileManager = "thunar"
 local menu        = "qs ipc call launcher toggle"
 
 
@@ -56,7 +56,7 @@ hl.on("hyprland.start", function ()
     hl.exec_cmd("qs")   -- quickshell: notificações (e depois launcher/painel)
     hl.exec_cmd("wl-paste --type text --watch cliphist store")
     hl.exec_cmd("wl-paste --type image --watch cliphist store")
-    hl.exec_cmd("hyprsunset")                        -- luz noturna (hypr/hyprsunset.conf)
+    -- hl.exec_cmd("hyprsunset")   -- luz noturna desligada (tela amarelada incomodava)
     hl.exec_cmd("udiskie --no-tray --notify --automount")   -- pendrive/HD montam sozinhos
 --   hl.exec_cmd(terminal)
 --   hl.exec_cmd("nm-applet")
@@ -73,6 +73,7 @@ end)
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
 hl.env("QT_QPA_PLATFORMTHEME", "qt6ct")   -- paleta Mucha em apps Qt (qt6ct/colors/mucha.conf)
+hl.env("_JAVA_AWT_WM_NONREPARENTING", "1")   -- apps Java (Astah etc.) não abrem em branco no Hyprland
 
 
 -----------------------
@@ -227,6 +228,14 @@ hl.config({
     },
 })
 
+-- Apps X11 (XWayland) em escala 1 nítida em vez de esticados e borrados pela
+-- escala 1.5. Hoje só o Astah usa XWayland; Java não aceita escala 1.5.
+hl.config({
+    xwayland = {
+        force_zero_scaling = true,
+    },
+})
+
 
 ----------------
 ---- LAYERS ----
@@ -289,7 +298,8 @@ hl.bind(mainMod .. " + Q",            hl.dsp.exec_cmd(terminal), { desc = "Apps|
 -- fonte 12 aqui: o terminal usa 14 (código), mas btop pede no mínimo 80x24;
 -- opaco porque flutua sobre outras janelas (texto de trás vazava)
 local function tui(cmd) return 'ghostty --class=rice.mucha.tui --font-size=12 --background-opacity=1 -e ' .. cmd end
-hl.bind(mainMod .. " + E",              hl.dsp.exec_cmd(tui("yazi")), { desc = "Apps|Arquivos (yazi)" })
+hl.bind(mainMod .. " + E",              hl.dsp.exec_cmd(fileManager), { desc = "Apps|Arquivos (Thunar)" })
+hl.bind(mainMod .. " + SHIFT + E",      hl.dsp.exec_cmd(tui("yazi")), { desc = "Apps|Arquivos no terminal (yazi)" })
 hl.bind(mainMod .. " + G",              hl.dsp.exec_cmd("cd ~/Projects && " .. tui("lazygit")), { desc = "Apps|Git (lazygit)" })
 hl.bind(mainMod .. " + SHIFT + D",      hl.dsp.exec_cmd(tui("lazydocker")), { desc = "Apps|Docker (lazydocker)" })
 hl.bind(mainMod .. " + SHIFT + Escape", hl.dsp.exec_cmd(tui("btop")), { desc = "Apps|Monitor do sistema (btop)" })
@@ -327,6 +337,11 @@ hl.bind(mainMod .. " + T",            hl.dsp.layout("togglesplit"), { desc = "Ja
 -- tampa: com monitor externo desliga a tela interna (sem externo o logind suspende)
 hl.bind("switch:on:Lid Switch",  hl.dsp.exec_cmd("~/.config/hypr/scripts/tampa.sh fechou"), { locked = true, desc = "Oculto|tampa fechou" })
 hl.bind("switch:off:Lid Switch", hl.dsp.exec_cmd("~/.config/hypr/scripts/tampa.sh abriu"),  { locked = true, desc = "Oculto|tampa abriu" })
+-- projetor/monitor externo: estender -> espelhar -> só externo (hypr/scripts/projetor.sh)
+hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd("~/.config/hypr/scripts/projetor.sh"), { desc = "Sistema|Projetor: estender → espelhar → só externo" })
+hl.bind("XF86Display",             hl.dsp.exec_cmd("~/.config/hypr/scripts/projetor.sh"), { desc = "Oculto|tecla de projetor" })
+-- puxou o cabo no modo "só externo": religa a tela do notebook
+hl.on("monitor.removed", function () hl.exec_cmd("~/.config/hypr/scripts/projetor.sh desconectou") end)
 -- Alt+Tab com prévia (quickshell/alternar); soltar o Alt escolhe
 hl.bind("ALT + Tab",         hl.dsp.exec_cmd("qs ipc call alternar proxima"),  { desc = "Janelas|Alternar janelas (solte o Alt)" })
 hl.bind("ALT + SHIFT + Tab", hl.dsp.exec_cmd("qs ipc call alternar anterior"), { desc = "Janelas|Alternar janelas (solte o Alt)" })
@@ -437,6 +452,14 @@ hl.window_rule({
     match = { class = "^rice\\.mucha\\.tui$" },
     float  = true,
     size   = "monitor_w*0.9 monitor_h*0.9",
+    center = true,
+})
+
+-- Thunar: janelas de progresso/confirmação de cópia flutuam em vez de dividir a tela
+hl.window_rule({
+    name  = "thunar-dialogos",
+    match = { class = "^[Tt]hunar$", title = "^(Progresso|Operações de arquivo|File Operation Progress|Confirm|Confirmar).*" },
+    float  = true,
     center = true,
 })
 

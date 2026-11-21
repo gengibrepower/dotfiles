@@ -17,5 +17,7 @@ gui:
     defaultFgColor: ["#3A3328"]
 git:
   diffRenderers:
+    - type: stdinFilter
+      command: delta --light --paging=never
     - colorArg: always
       type: rawGit
