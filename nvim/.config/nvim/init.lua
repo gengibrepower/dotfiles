@@ -3,6 +3,7 @@ vim.g.maplocalleader = " "
 
 require("opcoes")
 require("tema")
+require("linha_de_comando")
 require("treesitter")
 require("lsp")
 require("completacao")
