@@ -1,6 +1,21 @@
 -- gruvbox escuro de fundo opaco sobre o terminal claro translúcido; :colorscheme mucha continua disponível
 vim.pack.add({ "https://github.com/ellisonleao/gruvbox.nvim" })
 
-require("gruvbox").setup({ contrast = "hard", transparent_mode = false })
+local sem_fundo = { bg = "NONE" }
+-- o gruvbox pinta a coluna de sinais com bg1, mais claro que o editor
+require("gruvbox").setup({
+  contrast = "hard",
+  transparent_mode = false,
+  overrides = {
+    SignColumn = sem_fundo,
+    GruvboxRedSign = sem_fundo,
+    GruvboxGreenSign = sem_fundo,
+    GruvboxYellowSign = sem_fundo,
+    GruvboxBlueSign = sem_fundo,
+    GruvboxPurpleSign = sem_fundo,
+    GruvboxAquaSign = sem_fundo,
+    GruvboxOrangeSign = sem_fundo,
+  },
+})
 vim.o.background = "dark"
 vim.cmd.colorscheme("gruvbox")
