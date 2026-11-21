@@ -66,6 +66,8 @@ REPO=(
     tree-sitter-cli typescript-language-server svelte-language-server tailwindcss-language-server
     biome gopls delve rust-analyzer clang lua-language-server stylua pyright ruff marksman
     yaml-language-server vscode-json-languageserver taplo-cli sqlfluff
+    # vault de notas em ~/Notas
+    obsidian
 )
 AUR=(lefthook rr jdtls)
 
