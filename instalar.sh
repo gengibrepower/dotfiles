@@ -271,7 +271,7 @@ fi
 cat <<'EOF'
   Próximos passos:
    - abra um terminal novo (zoxide, fzf e a função claude entram pelo ~/.bashrc)
-   - no primeiro nvim, o lazy.nvim baixa os plugins sozinho
+   - no primeiro nvim, o vim.pack baixa os plugins e o treesitter compila os parsers
    - saia da sessão e entre de novo pelo SDDM para o Hyprland carregar tudo
    - Super+ß mostra todos os atalhos
    - cadastre ~/.ssh/id_ed25519.pub como Signing key no GitHub (Settings → SSH and GPG keys)
