@@ -2,10 +2,8 @@ require("remote_clipboard").setup()
 
 vim.opt.number = true
 vim.opt.relativenumber = false
-vim.opt.colorcolumn = "101"
 vim.opt.showtabline = 0
 vim.opt.clipboard = "unnamedplus"
-vim.opt.signcolumn = "yes"
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.undofile = true
