@@ -4,3 +4,4 @@ vim.g.maplocalleader = " "
 require("opcoes")
 require("tema")
 require("treesitter")
+require("lsp")
