@@ -62,8 +62,14 @@ REPO=(
     docker docker-compose docker-buildx
     git github-cli openssh git-delta difftastic git-absorb
     gdb lldb wireshark-qt websocat hyperfine
+    # Neovim: language servers, formatadores e depuração vêm do pacman (sem Mason)
+    tree-sitter-cli typescript-language-server svelte-language-server tailwindcss-language-server
+    biome gopls delve rust-analyzer clang lua-language-server stylua pyright ruff marksman
+    yaml-language-server vscode-json-languageserver taplo-cli sqlfluff
+    # vault de notas em ~/Notas
+    obsidian
 )
-AUR=(lefthook rr)
+AUR=(lefthook rr jdtls)
 
 if [ "$PACOTES" = 1 ]; then
     etapa "Pacotes"
@@ -267,7 +273,7 @@ fi
 cat <<'EOF'
   Próximos passos:
    - abra um terminal novo (zoxide, fzf e a função claude entram pelo ~/.bashrc)
-   - no primeiro nvim, o lazy.nvim baixa os plugins sozinho
+   - no primeiro nvim, o vim.pack baixa os plugins e o treesitter compila os parsers
    - saia da sessão e entre de novo pelo SDDM para o Hyprland carregar tudo
    - Super+ß mostra todos os atalhos
    - cadastre ~/.ssh/id_ed25519.pub como Signing key no GitHub (Settings → SSH and GPG keys)

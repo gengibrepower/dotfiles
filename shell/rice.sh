@@ -19,9 +19,10 @@ shopt -s histappend
 # atuin assume o Ctrl+R (carregado depois do fzf para ganhar o atalho); a seta para cima continua a do bash
 command -v atuin >/dev/null && eval "$(atuin init bash --disable-up-arrow)"
 
-# zoxide substitui o cd (cd foo pula para o diretório mais usado que casa com "foo"; cdi = interativo com fzf)
-command -v zoxide >/dev/null && eval "$(zoxide init bash --cmd cd)"
-
 # mise põe no PATH as versões de node, go, java etc. do projeto atual (ou as globais)
 command -v mise >/dev/null && eval "$(mise activate bash)"
+
+# zoxide substitui o cd (cd foo pula para o diretório mais usado que casa com "foo"; cdi = interativo com fzf);
+# por último, porque o mise activate também redefine o cd e sobrescreveria o do zoxide
+command -v zoxide >/dev/null && eval "$(zoxide init bash --cmd cd)"
 
