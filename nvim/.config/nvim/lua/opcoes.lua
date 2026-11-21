@@ -1,7 +1,7 @@
 require("remote_clipboard").setup()
 
 vim.opt.number = true
-vim.opt.relativenumber = false
+vim.opt.relativenumber = true
 vim.opt.showtabline = 0
 vim.opt.clipboard = "unnamedplus"
 vim.opt.ignorecase = true
