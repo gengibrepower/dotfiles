@@ -21,6 +21,14 @@
       "rev": "48262cda6a8a921b159c8ec3e21b48ccd870b7b2",
       "src": "https://github.com/ellisonleao/gruvbox.nvim"
     },
+    "nvim-dap": {
+      "rev": "cfa2d58f4537aca6ca83e2de1a0d9f1491121264",
+      "src": "https://github.com/mfussenegger/nvim-dap"
+    },
+    "nvim-dap-view": {
+      "rev": "1c3b9cc295303fc173f24d442739a8557e23e987",
+      "src": "https://github.com/igorlfs/nvim-dap-view"
+    },
     "nvim-lint": {
       "rev": "6bf29b9dbdad60b38b489b23309c22ba6d4c915a",
       "src": "https://github.com/mfussenegger/nvim-lint"
