@@ -27,6 +27,9 @@ cursor-text = cell-background
 keybind = shift+insert=paste_from_clipboard
 # arrastar com o botão esquerdo seleciona (o tmux está com mouse off) e copia direto pro clipboard, não só pra seleção primária
 copy-on-select = clipboard
+# Shift+PageUp/PageDown vão pro tmux (o histórico do Ghostty fica vazio dentro dele)
+keybind = shift+page_up=unbind
+keybind = shift+page_down=unbind
 
 # padding acompanha a cor das células da borda (nvim escuro sem moldura creme)
 window-padding-color = extend-always
