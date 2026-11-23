@@ -7,6 +7,7 @@ require("gruvbox").setup({
   contrast = "hard",
   transparent_mode = false,
   overrides = {
+    Cursor = { fg = "#1d2021", bg = "#ffffff", reverse = false }, -- branco: o guicursor usa este grupo
     SignColumn = sem_fundo,
     GruvboxRedSign = sem_fundo,
     GruvboxGreenSign = sem_fundo,
