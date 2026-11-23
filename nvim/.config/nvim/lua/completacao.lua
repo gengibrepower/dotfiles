@@ -7,7 +7,8 @@ vim.pack.add({
 require("nvim-autopairs").setup({ check_ts = true })
 
 require("blink.cmp").setup({
-  keymap = { preset = "enter" },
+  -- Tab aceita (escolhe a primeira se nenhuma estiver marcada); sem menu, pula no snippet ou indenta
+  keymap = { preset = "enter", ["<Tab>"] = { "select_and_accept", "snippet_forward", "fallback" } },
   completion = { documentation = { auto_show = true } },
   signature = { enabled = true },
   cmdline = {
