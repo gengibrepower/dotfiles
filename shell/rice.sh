@@ -26,3 +26,10 @@ command -v mise >/dev/null && eval "$(mise activate bash)"
 # por último, porque o mise activate também redefine o cd e sobrescreveria o do zoxide
 command -v zoxide >/dev/null && eval "$(zoxide init bash --cmd cd)"
 
+
+# glow com o estilo Mucha do tema atual (lido a cada chamada: vale logo após trocar o tema)
+glow() {
+    local v=dia
+    [ "$(cat "${XDG_STATE_HOME:-$HOME/.local/state}/rice/tema" 2>/dev/null)" = escuro ] && v=noite
+    command glow -s "$HOME/Projects/dotfiles/glow/mucha-$v.json" "$@"
+}
