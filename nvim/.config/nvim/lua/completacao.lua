@@ -1,4 +1,10 @@
-vim.pack.add({ { src = "https://github.com/saghen/blink.cmp", version = vim.version.range("1.*") } })
+vim.pack.add({
+  { src = "https://github.com/saghen/blink.cmp", version = vim.version.range("1.*") },
+  "https://github.com/windwp/nvim-autopairs",
+})
+
+-- fecha ( [ { " '; não fecha em string/comentário (treesitter); <CR> entre {} abre linha indentada
+require("nvim-autopairs").setup({ check_ts = true })
 
 require("blink.cmp").setup({
   keymap = { preset = "enter" },

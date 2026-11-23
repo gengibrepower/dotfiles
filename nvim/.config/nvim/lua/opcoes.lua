@@ -15,7 +15,7 @@ vim.opt.splitbelow = true
 vim.opt.scrolloff = 4
 vim.opt.termguicolors = true
 -- cor explícita (grupo Cursor): o cell-foreground do Ghostty deixava a barra do insert invisível
-vim.opt.guicursor = "n-v-c-sm:block-Cursor,i-ci-ve:ver25-Cursor,r-cr-o:hor20-Cursor,t:block-blinkon500-blinkoff500-TermCursor"
+vim.opt.guicursor = "n-v-c-sm:block-Cursor,i-ci-ve:ver35-Cursor,r-cr-o:hor20-Cursor,t:block-blinkon500-blinkoff500-TermCursor"
 
 vim.keymap.set("n", "ZR", "<cmd>restart<cr>", { desc = "Reiniciar o Neovim" })
 vim.keymap.set("n", "<esc>", "<cmd>nohlsearch<cr><esc>")
