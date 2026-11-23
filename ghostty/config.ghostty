@@ -25,7 +25,7 @@ cursor-text = cell-background
 
 # Super+V do Hyprland manda Shift+Insert: colar do clipboard, não da seleção
 keybind = shift+insert=paste_from_clipboard
-# Shift+arrastar seleciona por cima do tmux/nvim/claude; copiar direto pro clipboard (o padrão ia só pra seleção primária)
+# arrastar com o botão esquerdo seleciona (o tmux está com mouse off) e copia direto pro clipboard, não só pra seleção primária
 copy-on-select = clipboard
 
 # padding acompanha a cor das células da borda (nvim escuro sem moldura creme)
