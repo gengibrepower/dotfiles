@@ -2,7 +2,8 @@
 # Paleta: ~/Projects/dotfiles/hypr/mucha.lua
 
 font-family = Maple Mono NF
-font-size = 14
+# 11 dá ~138 colunas em tela cheia: cabem as linhas do AMPS (14 dava 109)
+font-size = 11
 
 window-padding-x = 6
 window-padding-y = 4
@@ -24,6 +25,8 @@ cursor-text = cell-background
 
 # Super+V do Hyprland manda Shift+Insert: colar do clipboard, não da seleção
 keybind = shift+insert=paste_from_clipboard
+# Shift+arrastar seleciona por cima do tmux/nvim/claude; copiar direto pro clipboard (o padrão ia só pra seleção primária)
+copy-on-select = clipboard
 
 # padding acompanha a cor das células da borda (nvim escuro sem moldura creme)
 window-padding-color = extend-always
