@@ -306,6 +306,13 @@ hl.bind(mainMod .. " + SHIFT + Escape", hl.dsp.exec_cmd(tui("btop")), { desc = "
 hl.bind(mainMod .. " + SHIFT + U",      hl.dsp.exec_cmd(tui("~/.config/hypr/scripts/atualizar.sh")), { desc = "Sistema|Atualizar o sistema" })
 hl.bind(mainMod .. " + B",              hl.dsp.exec_cmd("firefox"), { desc = "Apps|Navegador" })
 hl.bind(mainMod .. " + O",              hl.dsp.exec_cmd("obsidian"), { desc = "Apps|Notas (Obsidian)" })
+-- shortcut: a regra de área casa pelo pid; app que já está aberto abre/foca onde já estava
+hl.bind(mainMod .. " + SHIFT + adiaeresis", function()
+    hl.exec_cmd("firefox", { workspace = "1 silent" })
+    hl.exec_cmd("~/.config/hypr/scripts/tmux-terminal.sh", { workspace = "2 silent" })
+    hl.exec_cmd("obsidian", { workspace = "3 silent" })
+    hl.dispatch(hl.dsp.focus({ workspace = 1 }))
+end, { desc = "Apps|Setup inicial (navegador 1, tmux 2, Obsidian 3)" })
 hl.bind(mainMod .. " + D",            hl.dsp.exec_cmd(menu), { desc = "Sistema|Launcher (Tab troca o modo)" })
 hl.bind(mainMod .. " + space",        hl.dsp.exec_cmd(menu), { desc = "Sistema|Launcher (Tab troca o modo)" })
 hl.bind(mainMod .. " + Escape",       hl.dsp.exec_cmd("qs ipc call painel toggle"), { desc = "Sistema|Painel de status" })
