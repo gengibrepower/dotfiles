@@ -1,6 +1,8 @@
+# e-mail e allowed_signers ficam fora do repo, em ~/.config/git/pessoal e ~/.config/git/allowed_signers
+[include]
+	path = ~/.config/git/pessoal
 [user]
 	name = Felipe Gegembauer
-	email = 79603683+gengibrepower@users.noreply.github.com
 	signingkey = ~/.ssh/id_ed25519.pub
 [credential "https://github.com"]
 	helper =
