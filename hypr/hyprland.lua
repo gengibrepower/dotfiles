@@ -305,6 +305,7 @@ hl.bind(mainMod .. " + SHIFT + D",      hl.dsp.exec_cmd(tui("lazydocker")), { de
 hl.bind(mainMod .. " + SHIFT + Escape", hl.dsp.exec_cmd(tui("btop")), { desc = "Apps|Monitor do sistema (btop)" })
 hl.bind(mainMod .. " + SHIFT + U",      hl.dsp.exec_cmd(tui("~/.config/hypr/scripts/atualizar.sh")), { desc = "Sistema|Atualizar o sistema" })
 hl.bind(mainMod .. " + B",              hl.dsp.exec_cmd("firefox"), { desc = "Apps|Navegador" })
+hl.bind(mainMod .. " + O",              hl.dsp.exec_cmd("obsidian"), { desc = "Apps|Notas (Obsidian)" })
 hl.bind(mainMod .. " + D",            hl.dsp.exec_cmd(menu), { desc = "Sistema|Launcher (Tab troca o modo)" })
 hl.bind(mainMod .. " + space",        hl.dsp.exec_cmd(menu), { desc = "Sistema|Launcher (Tab troca o modo)" })
 hl.bind(mainMod .. " + Escape",       hl.dsp.exec_cmd("qs ipc call painel toggle"), { desc = "Sistema|Painel de status" })
