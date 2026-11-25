@@ -1,5 +1,4 @@
 -- Rice Art Nouveau "Mucha" — paleta e aparência
--- Mockup: https://claude.ai/artifact/2sKjw44zbKy6GU3d6EwtRE
 
 local M = {}
 

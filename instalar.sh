@@ -129,6 +129,13 @@ for d in hypr ghostty quickshell rice btop yazi lazygit lazydocker mpv imv zathu
 done
 linkar gtk/gtk-3.0 "$HOME/.config/gtk-3.0"
 linkar gtk/gtk-4.0 "$HOME/.config/gtk-4.0"
+# favoritos do Thunar/GTK precisam de caminho absoluto, então ficam fora do git
+bm="$DOTS/gtk/gtk-3.0/bookmarks"
+if [ -f "$bm" ]; then ok "favoritos do GTK"
+else
+    printf '  → cria %s\n' "${bm/#$HOME/\~}"
+    [ "$SIMULAR" = 1 ] || for d in Projects Downloads Documents Pictures; do echo "file://$HOME/$d $d"; done > "$bm"
+fi
 linkar nvim/.config/nvim "$HOME/.config/nvim"
 linkar tmux/tmux.conf "$HOME/.config/tmux/tmux.conf"
 linkar thunar "$HOME/.config/Thunar"
