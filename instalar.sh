@@ -134,7 +134,8 @@ linkar tmux/tmux.conf "$HOME/.config/tmux/tmux.conf"
 linkar thunar "$HOME/.config/Thunar"
 linkar mise/config.toml "$HOME/.config/mise/config.toml"
 linkar git/config "$HOME/.config/git/config"
-linkar git/allowed_signers "$HOME/.config/git/allowed_signers"
+# e-mail e chaves de assinatura ficam fora do repo (ver git/config)
+[ -f "$HOME/.config/git/pessoal" ] || aviso "crie ~/.config/git/pessoal com [user] email = <seu e-mail>"
 # o ~/.gitconfig tem precedência sobre ~/.config/git/config; o conteúdo dele já está em git/config
 if [ -f "$HOME/.gitconfig" ]; then
     fazer mv "$HOME/.gitconfig" "$HOME/.gitconfig.bak-$DATA"
