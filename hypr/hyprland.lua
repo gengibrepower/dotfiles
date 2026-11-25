@@ -306,11 +306,20 @@ hl.bind(mainMod .. " + SHIFT + Escape", hl.dsp.exec_cmd(tui("btop")), { desc = "
 hl.bind(mainMod .. " + SHIFT + U",      hl.dsp.exec_cmd(tui("~/.config/hypr/scripts/atualizar.sh")), { desc = "Sistema|Atualizar o sistema" })
 hl.bind(mainMod .. " + B",              hl.dsp.exec_cmd("firefox"), { desc = "Apps|Navegador" })
 hl.bind(mainMod .. " + O",              hl.dsp.exec_cmd("obsidian"), { desc = "Apps|Notas (Obsidian)" })
--- shortcut: a regra de área casa pelo pid; app que já está aberto abre/foca onde já estava
+-- Firefox/Obsidian são instância única: se já estão abertos, relançar não move a janela
+-- (o pid novo morre), então leva a janela existente para a área.
+local function na_area(cmd, classe, area)
+    local w = hl.get_windows({ class = classe })[1]
+    if w then
+        hl.dispatch(hl.dsp.window.move({ workspace = area, window = "address:" .. w.address }))
+    else
+        hl.exec_cmd(cmd, { workspace = area .. " silent" })
+    end
+end
 hl.bind(mainMod .. " + SHIFT + adiaeresis", function()
-    hl.exec_cmd("firefox", { workspace = "1 silent" })
+    na_area("firefox", "firefox", 1)
     hl.exec_cmd("~/.config/hypr/scripts/tmux-terminal.sh", { workspace = "2 silent" })
-    hl.exec_cmd("obsidian", { workspace = "3 silent" })
+    na_area("obsidian", "md.obsidian.Obsidian", 3)
     hl.dispatch(hl.dsp.focus({ workspace = 1 }))
 end, { desc = "Apps|Setup inicial (navegador 1, tmux 2, Obsidian 3)" })
 hl.bind(mainMod .. " + D",            hl.dsp.exec_cmd(menu), { desc = "Sistema|Launcher (Tab troca o modo)" })
